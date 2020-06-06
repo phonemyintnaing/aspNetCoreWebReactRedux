@@ -1,6 +1,6 @@
 using System;
 
-namespace MvcRoom.Models
+namespace InitCMS.Models
 {
     public class ErrorViewModel
     {

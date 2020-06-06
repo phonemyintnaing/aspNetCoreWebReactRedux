@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 //Added by me later 
-using MvcRoom.Data;
+using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace MvcRoom
+namespace InitCMS
 {
     public class Startup
     {
@@ -29,8 +29,8 @@ namespace MvcRoom
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MvcRoomContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("MvcRoomContext")));
+            services.AddDbContext<InitCMSContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("InitCMSContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

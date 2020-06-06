@@ -8594,11 +8594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\MvcRoom.csproj",
-      "projectName": "MvcRoom",
-      "projectPath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\MvcRoom.csproj",
+      "projectUniqueName": "C:\\Users\\neodev\\Source\\Repos\\aspNetMvc\\InitCMS.csproj",
+      "projectName": "InitCMS",
+      "projectPath": "C:\\Users\\neodev\\Source\\Repos\\aspNetMvc\\InitCMS.csproj",
       "packagesPath": "C:\\Users\\neodev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\obj\\",
+      "outputPath": "C:\\Users\\neodev\\Source\\Repos\\aspNetMvc\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\neodev\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8654,6 +8654,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.2, 3.1.2]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -8662,7 +8668,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

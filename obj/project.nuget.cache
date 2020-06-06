@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4JG7ROsjTh7LvS6fdEtvHS2rlz4ShYzu28YdwJ12EHVdPgiXPC7+rOV29qDaQQhhgCDy+PDMWSJy53ANgIdypQ==",
+  "dgSpecHash": "q5DpHcUd9fBTxmfAmI8hLFMyltwVdshy7IQYn/3u5Iuu9hhMi2spIL2TamsKQfGDZ4b9O4rlRiFHKP5fSRa9+w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\MvcRoom.csproj",
+  "projectFilePath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\InitCMS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
@@ -166,7 +166,8 @@
     "C:\\Users\\neodev\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\neodev\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\neodev\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\neodev\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
   ],
   "logs": []
 }

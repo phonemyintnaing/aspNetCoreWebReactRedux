@@ -1,48 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MvcRoom.Data;
-using MvcRoom.Models;
+using InitCMS.Models;
 
-namespace MvcRoom.Controllers
+namespace InitCMS.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MvcRoomContext _context;
-        public HomeController(ILogger<HomeController> logger, MvcRoomContext context)
+     
+        public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;
-            _context = context;
+            _logger = logger;           
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Room.ToListAsync());
+            return View();
         }
 
-        // GET: Rooms/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var room = await _context.Room
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return View(room);
-        }
 
         public IActionResult Privacy()
         {
