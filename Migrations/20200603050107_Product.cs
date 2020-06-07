@@ -30,7 +30,7 @@ namespace InitCMS.Migrations
                     Name = table.Column<string>(nullable: true),
                     PCode = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    BuyPrice = table.Column<decimal>(nullable: false),
+                    PurchasePrice = table.Column<decimal>(nullable: false),
                     SellPrice = table.Column<decimal>(nullable: false),
                     InStock = table.Column<int>(nullable: false),
                     Sale = table.Column<int>(nullable: false),
