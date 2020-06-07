@@ -73,7 +73,7 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
+                <img src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductCategory.Id)

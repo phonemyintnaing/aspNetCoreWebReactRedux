@@ -115,13 +115,29 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product  = await _context.Products.FindAsync(id);
+           
+            ProductEditViewModel PEVM = new ProductEditViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                PCode = product.PCode,
+                Description = product.Description,
+                PurchasePrice = product.PurchasePrice,
+                SellPrice = product.SellPrice,
+                InStock = product.InStock,
+                Sale = product.Sale,
+                CreatedDate = product.CreatedDate,
+                ProductCategoryID = product.ProductCategoryID,
+                PhtotPath = product.ImagePath
+                
+            };
             if (product == null)
             {
                 return NotFound();
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
-            return View(product);
+            return View(PEVM);
         }
 
         // POST: Products/Edit/5
@@ -129,9 +145,9 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,Photo")] ProductViewModel product)
+        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,Photo,PhtotPath")] ProductEditViewModel productVM)
         {
-            if (id != product.Id)
+            if (id != productVM.Id)
             {
                 return NotFound();
             }
@@ -140,12 +156,48 @@ namespace InitCMS.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    if (ModelState.IsValid)
+                    {
+                        string uniqueFileName = UploadedFile(productVM);
+
+                        Product products = new Product();
+
+                        products.Id = productVM.Id;
+                        products.Name = productVM.Name;
+                        products.PCode = productVM.PCode;
+                        products.Description = productVM.Description;
+                        products.PurchasePrice = productVM.PurchasePrice;
+                        products.SellPrice = productVM.SellPrice;
+                        products.InStock = productVM.InStock;
+                        products.Sale = productVM.Sale;
+                        products.CreatedDate = productVM.CreatedDate;
+                        products.ProductCategoryID = productVM.ProductCategoryID;
+                        if (uniqueFileName == null)
+                        {
+                            products.ImagePath = productVM.PhtotPath;
+                        }
+                        else if (productVM.PhtotPath != null)
+                        {
+                            string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", productVM.PhtotPath);
+                            System.IO.File.Delete(filePath);
+                            products.ImagePath = uniqueFileName;
+                        }
+                        else
+                        {
+                            products.ImagePath = uniqueFileName;
+                        }
+                        
+                        
+                        //  _context.Add(products);
+                        _context.Update(products);
+                        _context.SaveChanges();
+                        
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(productVM.Id))
                     {
                         return NotFound();
                     }
@@ -156,8 +208,8 @@ namespace InitCMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
-            return View(product);
+            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productVM.ProductCategoryID);
+            return View(productVM);
         }
 
         // GET: Products/Delete/5
