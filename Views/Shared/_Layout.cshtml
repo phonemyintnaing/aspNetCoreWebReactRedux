@@ -19,17 +19,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products <span class="caret"></span></a>
+                            <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">Category</a></li>
-                                <li class="nav-item"><a asp-controller="Products" asp-action="Index">Product List</a></li>
+                                <li class="nav-item"><a asp-controller="Products" asp-action="Index">Products</a></li>
                             </ul>
                         </li>
-  
 
                     </ul>
                 </div>
@@ -44,12 +43,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - iRent App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- TODO >>>> Insert into project folder-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

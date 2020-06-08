@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace InitCMS
 {
     public class Startup
@@ -31,6 +32,7 @@ namespace InitCMS
 
             services.AddDbContext<InitCMSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("InitCMSContext")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +60,7 @@ namespace InitCMS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Products}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

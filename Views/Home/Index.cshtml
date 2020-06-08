@@ -2,9 +2,42 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<h4>Welcome Dashboard</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Products</div>
+            <div class="card-body text-primary">
+                <h4 class="card-title"> @ViewBag.PCount</h4>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h1>DashBoard</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Categories</div>
+            <div class="card-body text-success">
+                <h4 class="card-title">@ViewBag.PCCount</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Visit</div>
+            <div class="card-body text-success">
+                <h4 class="card-title">102000</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Orders</div>
+            <div class="card-body text-success">
+                <h4 class="card-title">102000</h4>
+            </div>
+        </div>
+    </div>
+
 </div>
-

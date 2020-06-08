@@ -77,7 +77,7 @@ namespace InitCMS.Controllers
                     SellPrice = product.SellPrice,
                     InStock = product.InStock,
                     Sale = product.Sale,
-                    CreatedDate = product.CreatedDate,
+                    CreatedDate = DateTime.Now,
                     ProductCategoryID = product.ProductCategoryID,
                     ImagePath = uniqueFileName,
                 };
@@ -170,7 +170,7 @@ namespace InitCMS.Controllers
                         products.SellPrice = productVM.SellPrice;
                         products.InStock = productVM.InStock;
                         products.Sale = productVM.Sale;
-                        products.CreatedDate = productVM.CreatedDate;
+                        products.CreatedDate = DateTime.Now;
                         products.ProductCategoryID = productVM.ProductCategoryID;
                         if (uniqueFileName == null)
                         {
