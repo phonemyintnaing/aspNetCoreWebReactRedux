@@ -15,6 +15,7 @@ namespace InitCMS.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<ProductCategory> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
       
@@ -82,6 +83,7 @@ namespace InitCMS.Data
             **/
 
         }
+        public DbSet<InitCMS.Models.Category> Category { get; set; }
 
     }
 }

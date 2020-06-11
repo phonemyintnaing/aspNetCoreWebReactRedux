@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "z3LswHrzVvYQQadfnnquWySCFsWM8qr67QZWRH0DOKrcEL41fVbvDp6lx0LaeKtR0pUOlGKz13xry1QkWSe50A==",
+  "dgSpecHash": "O3sBwBFoVpUS3ldYUdftfP4evYyHgI0UMOgl3zT28qj4+EEWtNcfKAaUiygW+NtGl92+Z63V79zlAU+sPW/19A==",
   "success": true,
   "projectFilePath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\InitCMS.csproj",
   "expectedPackageFiles": [
@@ -39,6 +39,7 @@
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.dependencymodel\\3.1.4\\microsoft.extensions.dependencymodel.3.1.4.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.logging\\3.1.4\\microsoft.extensions.logging.3.1.4.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.4\\microsoft.extensions.logging.abstractions.3.1.4.nupkg.sha512",
+    "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.logging.debug\\3.0.0\\microsoft.extensions.logging.debug.3.0.0.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.options\\3.1.4\\microsoft.extensions.options.3.1.4.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.4\\microsoft.extensions.primitives.3.1.4.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.identity.client\\3.0.8\\microsoft.identity.client.3.0.8.nupkg.sha512",

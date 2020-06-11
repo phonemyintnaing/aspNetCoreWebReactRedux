@@ -28,11 +28,13 @@ namespace InitCMS.ViewModel
         [DisplayName("Created Date")]
         public DateTime CreatedDate { get; set; }
         public int ProductCategoryID { get; set; }
+        public int CategoryCatId { get; set; }
 
         [DisplayName("File Upload")]
         public IFormFile Photo { get; set; }
         [DisplayName("Category")]
         public ProductCategory ProductCategory { get; set; }
+        public Category Category { get; set; }
 
     }
 }

@@ -27,7 +27,9 @@ namespace InitCMS.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var initCMSContext = _context.Products.Include(p => p.ProductCategory);
+            var initCMSContext = _context.Products.Include(p => p.ProductCategory)
+                .Include(c=>c.Category);
+           
             return View(await initCMSContext.ToListAsync());
         }
 
@@ -54,6 +56,7 @@ namespace InitCMS.Controllers
         public IActionResult Create()
         {
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
+            ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle");
             return View();
         }
 
@@ -62,7 +65,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,Photo")] ProductViewModel product)
+        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo")] ProductViewModel product)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +82,7 @@ namespace InitCMS.Controllers
                     Sale = product.Sale,
                     CreatedDate = DateTime.Now,
                     ProductCategoryID = product.ProductCategoryID,
+                    CategoryCatId = product.CategoryCatId,
                     ImagePath = uniqueFileName,
                 };
                
@@ -87,6 +91,7 @@ namespace InitCMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
+            ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", product.CategoryCatId);
             return View(product);
         }
 
@@ -129,6 +134,7 @@ namespace InitCMS.Controllers
                 Sale = product.Sale,
                 CreatedDate = product.CreatedDate,
                 ProductCategoryID = product.ProductCategoryID,
+                CategoryCatId = product.CategoryCatId,
                 PhtotPath = product.ImagePath
                 
             };
@@ -137,6 +143,7 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
+            ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", product.CategoryCatId);
             return View(PEVM);
         }
 
@@ -145,7 +152,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,Photo,PhtotPath")] ProductEditViewModel productVM)
+        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo,PhtotPath")] ProductEditViewModel productVM)
         {
             if (id != productVM.Id)
             {
@@ -172,6 +179,7 @@ namespace InitCMS.Controllers
                         products.Sale = productVM.Sale;
                         products.CreatedDate = DateTime.Now;
                         products.ProductCategoryID = productVM.ProductCategoryID;
+                        products.CategoryCatId = productVM.CategoryCatId;
                         if (uniqueFileName == null)
                         {
                             products.ImagePath = productVM.PhtotPath;
@@ -209,6 +217,7 @@ namespace InitCMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productVM.ProductCategoryID);
+            ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", productVM.CategoryCatId);
             return View(productVM);
         }
 

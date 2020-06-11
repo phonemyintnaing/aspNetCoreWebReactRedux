@@ -26,11 +26,12 @@ namespace InitCMS.Models
         [DisplayName("Created Date")]
         public DateTime CreatedDate { get; set; }
         public int ProductCategoryID { get; set; }
-
+        public int CategoryCatId { get; set; }
         [DisplayName("Photo")]
         public string ImagePath { get; set; }
-        [DisplayName("Category")]
+        [DisplayName("Product Category")]
         public ProductCategory ProductCategory { get; set; }
+        public Category Category { get; set; }
         
     }
 }
