@@ -18,6 +18,10 @@
     <Compile Remove="Migrations\20200609100808_AddCategory.Designer.cs" />
     <Compile Remove="Migrations\20200609101020_AddCategory.cs" />
     <Compile Remove="Migrations\20200609101020_AddCategory.Designer.cs" />
+    <Compile Remove="Migrations\20200611123458_AddUniqueKeyProduct.cs" />
+    <Compile Remove="Migrations\20200611123458_AddUniqueKeyProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200611123822_AddUniqueKeyProduct.cs" />
+    <Compile Remove="Migrations\20200611123822_AddUniqueKeyProduct.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

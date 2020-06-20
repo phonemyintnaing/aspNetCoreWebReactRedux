@@ -1,5 +1,6 @@
 ﻿using InitCMS.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,8 +14,11 @@ namespace InitCMS.ViewModel
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        [DisplayName("Product Code")]
+        [Required]
+        [DisplayName("Code")]
+        [Remote(action: "CheckPCode", controller:"Products")]
         public string PCode { get; set; }
         public string Description { get; set; }
         [DisplayName("Purchse Price")]

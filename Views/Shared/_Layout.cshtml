@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - Init CMS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery-validation-unobtrusive/jquery-validation-unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -21,13 +24,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">User</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a asp-controller="Categories" asp-action="Index">Categories</a></li>
-                                <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">Product Categories</a></li>
-                                <li class="nav-item"><a asp-controller="Products" asp-action="Index">Products</a></li>                                
+                                <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">SubCategories</a></li>
+                                <li class="nav-item"><a asp-controller="Products" asp-action="Index">Products</a></li>
                             </ul>
                         </li>
 

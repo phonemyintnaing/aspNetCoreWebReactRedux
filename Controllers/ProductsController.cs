@@ -11,6 +11,7 @@ using InitCMS.ViewModel;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InitCMS.Controllers
 {
@@ -60,6 +61,25 @@ namespace InitCMS.Controllers
             return View();
         }
 
+        //Remote Validation for Product Code
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckPCode(string pcode)
+        {
+
+            var query = await _context.Products.FirstOrDefaultAsync(c => c.PCode == pcode);
+          
+            if (query == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Product Code {pcode} is already in use. Please Choose Different Code!");
+            }
+
+        }
+
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -67,6 +87,7 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo")] ProductViewModel product)
         {
+            
             if (ModelState.IsValid)
             {
                 string uniqueFileName = UploadedFile(product);
@@ -85,7 +106,8 @@ namespace InitCMS.Controllers
                     CategoryCatId = product.CategoryCatId,
                     ImagePath = uniqueFileName,
                 };
-               
+               // product = await _context.Products.SingleOrDefaultAsync(c => c.PCode == products.PCode);
+              
                 _context.Add(products);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

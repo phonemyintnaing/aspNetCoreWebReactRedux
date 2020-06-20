@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,13 +12,17 @@ namespace InitCMS.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [MaxLength(20)]
         public string Name { get; set; }
-        [DisplayName("Product Code")]
+        [Required]
+        [DisplayName("Code")]
+        [Remote(action: "CheckPCode", controller: "Products")]
         public string PCode { get; set; }
         public string Description { get; set; }
-        [DisplayName("Purchse Price")]
+        [DisplayName("Cost")]
         public decimal? PurchasePrice { get; set; }
-        [DisplayName("Selling Price")]
+        [DisplayName("Price")]
         public decimal SellPrice { get; set; }
         [DisplayName("In Stock")]
         public int? InStock { get; set; }
@@ -29,7 +34,7 @@ namespace InitCMS.Models
         public int CategoryCatId { get; set; }
         [DisplayName("Photo")]
         public string ImagePath { get; set; }
-        [DisplayName("Product Category")]
+        [DisplayName("Sub Category")]
         public ProductCategory ProductCategory { get; set; }
         public Category Category { get; set; }
         
