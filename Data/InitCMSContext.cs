@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using InitCMS.Models;
-using System;
-using InitCMS.ViewModel;
+
 
 namespace InitCMS.Data
 {
@@ -15,7 +14,7 @@ namespace InitCMS.Data
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<InitCMS.Models.Category> Category { get; set; }
+        public DbSet<Category> Category { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<User> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +30,8 @@ namespace InitCMS.Data
             
             modelBuilder.Entity<User>()
                 .HasIndex(e => e.UserEmail)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[UserEmail] is Not Null");
 
             //Seed Data
             // modelBuilder.Seed();

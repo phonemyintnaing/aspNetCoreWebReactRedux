@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
 using Microsoft.AspNetCore.Authorization;
+using InitCMS.ViewModel;
 
 namespace InitCMS.Controllers
 {
@@ -49,13 +50,14 @@ namespace InitCMS.Controllers
         {
             return View();
         }
-
-        [AcceptVerbs("Get", "Post")]
+        
+        [AcceptVerbs("GET","POST")]
         [AllowAnonymous]
-        public async Task<IActionResult> VerifyEmail(string email)
+        public async Task<IActionResult> VerifyEmail(UserViewModel user)
         {
 
-            var query = await _context.User.FirstOrDefaultAsync(c => c.UserEmail == email);
+            var query = await _context.User
+                .FirstOrDefaultAsync(m => m.UserEmail == user.UserEmail);
 
             if (query == null)
             {
@@ -63,7 +65,7 @@ namespace InitCMS.Controllers
             }
             else
             {
-                return Json($"Product Code {email} is already in use. Please Choose Different Code!");
+                return Json($"Email ID {user.UserEmail} is already registered. Please Choose different one!");
             }
 
         }
