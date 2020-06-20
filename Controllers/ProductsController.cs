@@ -44,6 +44,7 @@ namespace InitCMS.Controllers
 
             var product = await _context.Products
                 .Include(p => p.ProductCategory)
+                .Include(p=> p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -216,13 +217,11 @@ namespace InitCMS.Controllers
                         {
                             products.ImagePath = uniqueFileName;
                         }
-                        
-                        
-                        //  _context.Add(products);
+
                         _context.Update(products);
                         _context.SaveChanges();
                         
-                        return RedirectToAction(nameof(Index));
+                      //  return RedirectToAction(nameof(Index));
                     }
                 }
                 catch (DbUpdateConcurrencyException)

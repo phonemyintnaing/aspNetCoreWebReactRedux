@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace InitCMS.Models
+namespace InitCMS.ViewModel
 {
-    public class User
+    public class UserEditViewModel
     {
+
         [Key]
         public int UserId { get; set; }
         [Required]
@@ -14,13 +14,10 @@ namespace InitCMS.Models
         [Required]
         [DisplayName("Email")]
         [DataType(DataType.EmailAddress)]
-        [Remote(action: "VerifyEmail", controller: "Users")]
         public string UserEmail { get; set; }
         [Required]
         [DisplayName("Password")]
         [DataType(DataType.Password)]
         public string UserPassword { get; set; }
-
     }
-
 }

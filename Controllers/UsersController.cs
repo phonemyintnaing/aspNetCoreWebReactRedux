@@ -95,11 +95,21 @@ namespace InitCMS.Controllers
             }
 
             var user = await _context.User.FindAsync(id);
+
+            UserEditViewModel uevm = new UserEditViewModel
+            {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                UserEmail = user.UserEmail,
+                UserPassword = user.UserPassword
+
+            };
+
             if (user == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(uevm);
         }
 
         // POST: Users/Edit/5
@@ -107,9 +117,9 @@ namespace InitCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserEmail,UserPassword")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserEmail,UserPassword")] UserEditViewModel user_evm)
         {
-            if (id != user.UserId)
+            if (id != user_evm.UserId)
             {
                 return NotFound();
             }
@@ -118,12 +128,19 @@ namespace InitCMS.Controllers
             {
                 try
                 {
+                    User user = new User();
+                    user.UserId = user_evm.UserId;
+                    user.UserName = user_evm.UserName;
+                    user.UserEmail = user_evm.UserEmail;
+                    user.UserPassword = user_evm.UserPassword;
+
+                    
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    if (!UserExists(user_evm.UserId))
                     {
                         return NotFound();
                     }
@@ -134,7 +151,7 @@ namespace InitCMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(user_evm);
         }
 
         // GET: Users/Delete/5
