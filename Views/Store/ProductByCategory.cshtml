@@ -1,0 +1,29 @@
+﻿
+@model IEnumerable<InitCMS.Models.Product>
+@{
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+    ViewData["Title"] = "Init Store";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-6 mb-4" data-role="name">
+            <div class="card h-100">
+                <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="210" height="210"></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="#">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </h4>
+                    <h5>@Html.DisplayFor(modelItem => item.SellPrice) Ks</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PCode)</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<!-- /.row -->
