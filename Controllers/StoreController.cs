@@ -41,15 +41,8 @@ namespace InitCMS.Controllers
         //Get: List filter by Category
         public async Task<IActionResult> ProductByCategory(int? Id)
         {
+            
             var initCMSContext = _context.Products.Include(c => c.ProductCategory).Where(x => x.ProductCategoryID == Id);
-           //     .Include(p => p.ProductCategory)
-           //     .Where(x => x.ProductCategory.Name.Contains(pName));
-
-            //var query = from p in _context.Products
-            //            join c in _context.ProductCategory
-            //            on p.ProductCategoryID equals c.Id
-            //            where (c.Name == pName)
-            //            select new { p };
 
             return View(await initCMSContext.ToListAsync());
         }
