@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using InitCMS.Models;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace InitCMS.Data
 {
-    public class InitCMSContext : DbContext
+    public class InitCMSContext : IdentityDbContext
     {
         public InitCMSContext(DbContextOptions<InitCMSContext> options)
          : base(options)
@@ -19,7 +19,7 @@ namespace InitCMS.Data
         public DbSet<User> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-      
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<ProductCategory>().ToTable("ProductCategory");
 

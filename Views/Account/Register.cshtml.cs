@@ -1,18 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace InitCMS.Areas.Identity.Pages.Account
+namespace InitCMS.ViewModel
 {
-    [AllowAnonymous]
-    public class ResetPasswordConfirmationModel : PageModel
+    public class RegisterModel : PageModel
     {
         public void OnGet()
         {
-
         }
     }
 }

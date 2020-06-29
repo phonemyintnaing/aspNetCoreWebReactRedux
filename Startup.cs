@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 //Added by me later 
 using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace InitCMS
 {
@@ -32,7 +32,9 @@ namespace InitCMS
 
             services.AddDbContext<InitCMSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("InitCMSContext")));
-            
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<InitCMSContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +43,7 @@ namespace InitCMS
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
             else
             {
@@ -50,11 +53,14 @@ namespace InitCMS
             }
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {

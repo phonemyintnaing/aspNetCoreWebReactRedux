@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-fixed-top sticky-top navbar-expand-md navbar-dark bg-primary mb-3 ">
+        <nav class="navbar navbar-fixed-top sticky-top navbar-expand-md navbar-dark bg-dark mb-3 ">
             <div class="container-fluid">
                 <a class="navbar-brand mr-3" asp-area="" asp-controller="Store" asp-action="Index">Init Store</a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -17,13 +17,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
-                        <a href="#" class="nav-item nav-link active">Home</a>
+                        <a asp-controller="Store" asp-action="Index" class="nav-item nav-link active">Home</a>
                         <a href="#" class="nav-item nav-link">Services</a>
                         <a href="#" class="nav-item nav-link">About</a>
                         <a href="#" class="nav-item nav-link">Prtoduts</a>
                     </div>
                     <div class="navbar-nav ml-auto">
-                        <a class="nav-item nav-link" asp-area="" asp-controller="Store" asp-action="Index">Register</a>
+                        <a class="nav-item nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                         <a href="#" class="nav-item nav-link">Login</a>
                     </div>
                 </div>
