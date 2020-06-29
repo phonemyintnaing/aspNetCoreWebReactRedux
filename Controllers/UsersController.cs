@@ -128,13 +128,14 @@ namespace InitCMS.Controllers
             {
                 try
                 {
-                    User user = new User();
-                    user.UserId = user_evm.UserId;
-                    user.UserName = user_evm.UserName;
-                    user.UserEmail = user_evm.UserEmail;
-                    user.UserPassword = user_evm.UserPassword;
-
-                    
+                    User user = new User
+                    {
+                        UserId = user_evm.UserId,
+                        UserName = user_evm.UserName,
+                        UserEmail = user_evm.UserEmail,
+                        UserPassword = user_evm.UserPassword
+                    };
+                                        
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }

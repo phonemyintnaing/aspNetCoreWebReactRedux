@@ -127,10 +127,9 @@ namespace InitCMS.Controllers
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.Photo.CopyTo(fileStream);
-                }
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                model.Photo.CopyTo(fileStream);
+                fileStream.Dispose();
             }
             return uniqueFileName;
         }
@@ -190,19 +189,21 @@ namespace InitCMS.Controllers
                     {
                         string uniqueFileName = UploadedFile(productVM);
 
-                        Product products = new Product();
-
-                        products.Id = productVM.Id;
-                        products.Name = productVM.Name;
-                        products.PCode = productVM.PCode;
-                        products.Description = productVM.Description;
-                        products.PurchasePrice = productVM.PurchasePrice;
-                        products.SellPrice = productVM.SellPrice;
-                        products.InStock = productVM.InStock;
-                        products.Sale = productVM.Sale;
-                        products.CreatedDate = DateTime.Now;
-                        products.ProductCategoryID = productVM.ProductCategoryID;
-                        products.CategoryCatId = productVM.CategoryCatId;
+                        Product products = new Product
+                        {
+                            Id = productVM.Id,
+                            Name = productVM.Name,
+                            PCode = productVM.PCode,
+                            Description = productVM.Description,
+                            PurchasePrice = productVM.PurchasePrice,
+                            SellPrice = productVM.SellPrice,
+                            InStock = productVM.InStock,
+                            Sale = productVM.Sale,
+                            CreatedDate = DateTime.Now,
+                            ProductCategoryID = productVM.ProductCategoryID,
+                            CategoryCatId = productVM.CategoryCatId
+                        };
+                        
                         if (uniqueFileName == null)
                         {
                             products.ImagePath = productVM.PhtotPath;

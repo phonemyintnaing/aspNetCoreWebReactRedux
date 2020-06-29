@@ -53,14 +53,14 @@ namespace InitCMS
             }
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+          
 
             app.UseStaticFiles();
 
             app.UseRouting();
 
-           
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
