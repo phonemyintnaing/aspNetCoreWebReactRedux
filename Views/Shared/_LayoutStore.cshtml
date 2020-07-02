@@ -1,4 +1,5 @@
 ﻿@inject SignInManager<IdentityUser> signInManager;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,10 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <!--Additional links-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
 </head>
 <body>
     <header>
@@ -19,44 +24,48 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
                         <a asp-controller="Store" asp-action="Index" class="nav-item nav-link active">Home</a>
-                      
-                    </div>
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <div class="navbar-nav ml-auto">
-                            <form method="post" asp-action="Logout" asp-controller="Account">
-                                <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">
-                                     Logout @User.Identity.Name  </button>
-                            </form>
-                        </div>
 
-                    }
-                    else
-                    {
-                <div class="navbar-nav ml-auto">
-                    <a class="nav-item nav-link" asp-controller="Account" asp-action="Register">Register</a>
-                    <a class="nav-item nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                </div>
-                    }
-                    
+                    </div>
+
+                    <div class="navbar-nav ml-auto">
+                       
+                        @await Component.InvokeAsync("ShoppingCartSummary"); 
+                                           
+
+                        @if (signInManager.IsSignedIn(User))
+                        {
+
+                            <form method="post" asp-action="Logout" asp-controller="Account">
+                                <button type="submit" class="nav-link btn nav-link " style="width:auto">
+                                    Logout @User.Identity.Name
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="nav-item nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-item nav-link" asp-controller="Account" asp-action="Login">Login</a>
+
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-                </main>
-        </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @RenderSection("Scripts", required: false)
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>   
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

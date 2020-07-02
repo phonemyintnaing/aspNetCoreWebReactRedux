@@ -1,4 +1,5 @@
 ﻿@using InitCMS.Models; 
+
 @model dynamic
 
 @{
@@ -29,18 +30,15 @@
 
             <div class="col-lg-9">
 
-                <div class="jumbotron">
-                    <h1>Learn to Use Init Store</h1>
-                    <p class="lead">In Init store, you can do this and that. At <a href="https://www.imyansoft.com" target="_blank">Init Store</a> for people around the world.etc . text text</p>
-                    <p><a href="https://www.imyansoft.com" target="_blank" class="btn btn-success btn-lg">Get started today</a></p>
-                </div>
+                <!-- Partial View to add -->
 
                 <div class="row">
+
                     @foreach (Product item in Model.products)
                     {
                         <div class="col-md-6 col-lg-4 col-xl-3" data-role="name">
                             <div class="card h-100">
-                                <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="210" height="210"></a>
+                                <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="150" height="150"></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#">@Html.DisplayFor(modelItem => item.Name)</a>
@@ -49,8 +47,7 @@
                                     <p class="card-text">@Html.DisplayFor(modelItem => item.PCode)</p>
 
                                 </div>
-                                <button type="button" class="btn btn-dark"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-
+                                <a asp-action="AddToShoppingCart" asp-route-productId="@item.Id" asp-controller="ShoppingCart" class="btn btn-dark"><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>
                             </div>
                         </div>
                     }
@@ -68,7 +65,7 @@
     <!-- /.container -->
 @section scripts{ 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#myInput").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
@@ -76,7 +73,7 @@
                     $(this).toggle($(this).find('h4').text().toLowerCase().indexOf(value) > -1)
                 });
             });
-        });       
+        });
 
     </script>
 }

@@ -1,0 +1,14 @@
+﻿@model ShoppingCartViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+    ViewData["Title"] = "Init Store";
+}
+<h2>Shopping Cart</h2>
+<hr />
+@foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+{
+
+    <p>@item.Quantity</p>
+    <p>@item.Product.Name <br /> @item.Product.SellPrice <br />@item.Product.ImagePath</p>
+}
