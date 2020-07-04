@@ -38,6 +38,8 @@ namespace InitCMS
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<InitCMSContext>();
 
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
             services.AddMvc();
@@ -61,12 +63,10 @@ namespace InitCMS
             }
             app.UseHttpsRedirection();
 
-          
-
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
-
+           
             app.UseAuthentication();
             app.UseAuthorization();
 

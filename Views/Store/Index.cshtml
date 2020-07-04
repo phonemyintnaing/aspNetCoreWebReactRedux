@@ -15,28 +15,26 @@
                 <input id="myInput" class="form-control" type="text" placeholder="Search by Name ..." />
 
                 <hr />
-                <h3 class="my-4">Store Categories</h3>
+                <h4 class="my-4">Categories</h4>
                 <div class="list-group">
                     @foreach (ProductCategory item in Model.productCategories)
                     {
                     <a asp-action="ProductByCategory" asp-route-id="@item.Id" class="list-group-item">@Html.DisplayFor(modelItem => item.Name)</a>
                     }
 
-
                 </div>
-
             </div>
             <!-- /.col-lg-3 -->
 
             <div class="col-lg-9">
 
                 <!-- Partial View to add -->
+                @await Html.PartialAsync("_PartialView")
 
                 <div class="row">
-
                     @foreach (Product item in Model.products)
                     {
-                        <div class="col-md-6 col-lg-4 col-xl-3" data-role="name">
+                        <div class="col-lg-4 col-md-6 col-lg-3 " data-role="name">
                             <div class="card h-100">
                                 <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="150" height="150"></a>
                                 <div class="card-body">
@@ -47,22 +45,23 @@
                                     <p class="card-text">@Html.DisplayFor(modelItem => item.PCode)</p>
 
                                 </div>
-                                <a asp-action="AddToShoppingCart" asp-route-productId="@item.Id" asp-controller="ShoppingCart" class="btn btn-dark"><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>
+                                <div class="card-footer">
+                                    <a asp-action="AddToShoppingCart" asp-route-productId="@item.Id" asp-controller="ShoppingCart" class="btn btn-success"><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>
+                                </div>
                             </div>
                         </div>
                     }
 
                 </div>
-                <!-- /.row -->
+                    <!-- /.row -->
 
-            </div>
+                </div>
             <!-- /.col-lg-9 -->
 
         </div>
         <!-- /.row -->
 
 
-    <!-- /.container -->
 @section scripts{ 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">

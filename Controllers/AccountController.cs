@@ -52,6 +52,7 @@ namespace InitCMS.Controllers
         }
         //LogOut 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

@@ -22,10 +22,10 @@
                 @item.Quantity
             </td>
             <td>
-                @item.Product.SellPrice.ToString("c")
+                @item.Product.SellPrice
             </td>
             <td>
-                @((item.Product.SellPrice * item.Quantity).ToString())
+                @(item.Product.SellPrice * item.Quantity)
             </td>
             <td>
                 <a asp-action="RemoveFromShoppingCart" asp-controller="ShoppingCart" asp-route-productId="@item.Product.Id">Delete</a>
@@ -35,8 +35,9 @@
     </tbody>
     <tfoot>
         <tr>
-            
-            <td class="text-right">Total: @Model.ShoppingCartTotal.ToString() </td>
+
+            <td>Total: @Model.ShoppingCartTotal </td>
+            <td><a asp-action="Checkout" asp-controller="Order">Check Out</a></td>
         </tr>
 
     </tfoot>

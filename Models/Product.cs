@@ -21,9 +21,11 @@ namespace InitCMS.Models
         public string PCode { get; set; }
         public string Description { get; set; }
         [DisplayName("Cost")]
-        public decimal? PurchasePrice { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal PurchasePrice { get; set; }
         [DisplayName("Price")]
-        public decimal SellPrice { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal? SellPrice { get; set; }
         [DisplayName("In Stock")]
         public int? InStock { get; set; }
         [DisplayName("Sale")]

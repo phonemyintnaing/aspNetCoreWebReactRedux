@@ -22,18 +22,25 @@
     <Compile Remove="Migrations\20200611123458_AddUniqueKeyProduct.Designer.cs" />
     <Compile Remove="Migrations\20200611123822_AddUniqueKeyProduct.cs" />
     <Compile Remove="Migrations\20200611123822_AddUniqueKeyProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200702211201_Order.cs" />
+    <Compile Remove="Migrations\20200702211201_Order.Designer.cs" />
+    <Compile Remove="Migrations\20200702211525_OrderManagement.cs" />
+    <Compile Remove="Migrations\20200702211525_OrderManagement.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />    
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 

@@ -105,7 +105,7 @@ namespace InitCMS.Models
         {
             var total = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
                     .Select(c => c.Product.SellPrice * c.Quantity).Sum();
-            return total;
+            return (decimal)total;
         
         }
 
