@@ -36,7 +36,7 @@
                     {
                         <div class="col-lg-4 col-md-6 col-lg-3 " data-role="name">
                             <div class="card h-100">
-                                <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="150" height="150"></a>
+                                <a asp-action="Details" asp-route-id="@item.Id"><img class="card-img-top img-fluid" src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="150" height="150"></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#">@Html.DisplayFor(modelItem => item.Name)</a>

@@ -28,9 +28,9 @@
                     </div>
 
                     <div class="navbar-nav ml-auto">
-                       
-                        @await Component.InvokeAsync("ShoppingCartSummary"); 
-                                           
+
+                        @await Component.InvokeAsync("ShoppingCartSummary");
+
 
                         @if (signInManager.IsSignedIn(User))
                         {
@@ -57,14 +57,16 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <hr>
+    <footer>
+        <div class="row">
+            <div class="col-md-6">
+                &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>   
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
