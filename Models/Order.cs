@@ -36,6 +36,7 @@ namespace InitCMS.Models
         public string ZipCode { get; set; }
 
         [StringLength(10)]
+        [Display(Name = "City")]
         public string State { get; set; }
 
         [Required(ErrorMessage = "Please enter your country")]

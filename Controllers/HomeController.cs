@@ -7,6 +7,7 @@ using InitCMS.Data;
 using System.Collections.Generic;
 using System.Linq;
 using InitCMS.ViewModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace InitCMS.Controllers
 {
@@ -14,20 +15,33 @@ namespace InitCMS.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly InitCMSContext _context;
-        public HomeController(ILogger<HomeController> logger, InitCMSContext context)
+        private UserManager<IdentityUser> _userManager;
+        public HomeController(ILogger<HomeController> logger, InitCMSContext context, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
+            //product count
             var ProductCount = (from row in _context.Products
                           select row).Count();
+            //Product Category Count
             var PCCount = (from row in _context.ProductCategory
                                 select row).Count();
+            //Order Count
+            var TotalOrder = (from row in _context.OrderDetails
+                              select row).Count();
+            //Customer Count
+            var Customer = _userManager.Users.Count();
+
             ViewBag.PCount = ProductCount;
             ViewBag.PCCount = PCCount;
+            ViewBag.TotalOrder = TotalOrder;
+            ViewBag.Customer = Customer;
+
             return View();
         }
 

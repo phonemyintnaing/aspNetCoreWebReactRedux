@@ -2,10 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
-    ViewData["Title"] = "Init Store";
+    ViewData["Title"] = "Shopping Cart";
 }
-<h2>Shopping Cart</h2>
-<hr />
+<h4>Shopping Cart</h4>
+
 <table class="table">
   
     <tbody>
@@ -22,13 +22,13 @@
                 @item.Quantity
             </td>
             <td>
-                @item.Product.SellPrice
+                @item.Product.SellPrice.Value
             </td>
             <td>
                 @(item.Product.SellPrice * item.Quantity)
             </td>
             <td>
-                <a asp-action="RemoveFromShoppingCart" asp-controller="ShoppingCart" asp-route-productId="@item.Product.Id">Delete</a>
+                <a asp-action="RemoveFromShoppingCart" asp-controller="ShoppingCart" asp-route-productId="@item.Product.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         }
@@ -36,8 +36,8 @@
     <tfoot>
         <tr>
 
-            <td>Total: @Model.ShoppingCartTotal </td>
-            <td><a asp-action="Checkout" asp-controller="Order">Check Out</a></td>
+            <td>Total: @Model.ShoppingCartTotal.ToString("F") </td>
+            <td><a asp-action="Checkout" asp-controller="Order" class="btn btn-success">Check Out</a></td>
         </tr>
 
     </tfoot>

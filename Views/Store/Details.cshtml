@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Product Detail";
 }
 
 <div>
@@ -52,5 +52,5 @@
     </dl>
 </div>
 <div> 
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="AddToShoppingCart" asp-route-productId="@Model.Id" asp-controller="ShoppingCart" class="btn btn-success"><i class="fa fa-cart-plus mr-2"></i> Add to cart</a>     <a asp-action="Index" class="btn btn-success">Back to List</a>  
 </div>
