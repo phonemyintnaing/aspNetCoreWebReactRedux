@@ -44,6 +44,10 @@ namespace InitCMS
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
             services.AddMvc();
             services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(4);//You can set Time   
+            });
             services.AddSession();
         }
 
@@ -74,7 +78,7 @@ namespace InitCMS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Reports}/{action=Index}/{id?}");
+                    pattern: "{controller=Store}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,27 +20,50 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Store" asp-action="Index">Store</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">User</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a asp-controller="Categories" asp-action="Index">Categories</a></li>
-                                <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">SubCategories</a></li>
-                                <li class="nav-item"><a asp-controller="Products" asp-action="Index">Products</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
-                        </li>
+                        @if (string.IsNullOrEmpty(Context.Session.GetString("SessionEmail")))
+                        {
+                           
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Store" asp-action="Index">Store</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">User</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="Categories" asp-action="Index">Categories</a></li>
+                                    <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">SubCategories</a></li>
+                                    <li class="nav-item"><a asp-controller="Products" asp-action="Index">Products</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
+                            </li>
+                        }
+
+
                     </ul>
+                
+                </div>
+                
+                <div class="navbar-nav ml-auto">
+                    @if (string.IsNullOrEmpty(Context.Session.GetString("SessionEmail")))
+                    {
+                        @Html.ActionLink("Login", "Login", "Admin")
+
+                    }
+                    else
+                    {
+                        @ViewData["Email"] @Html.ActionLink("Logout", "Logout", "Admin")
+                    }
                 </div>
             </div>
         </nav>

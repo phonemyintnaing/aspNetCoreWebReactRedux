@@ -1,15 +1,10 @@
-﻿using System.Dynamic;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InitCMS.ViewModel;
-using InitCMS.Models;
 using InitCMS.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.VisualBasic;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -22,12 +17,22 @@ namespace InitCMS.Controllers
         }
         public IActionResult Index()
         {
-         
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             return View();
         }
 
         public IActionResult DailySale(DateTime date)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             DateTime startDateTime = date; //Today at 00:00:00
             DateTime endDateTime = date.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
@@ -63,6 +68,11 @@ namespace InitCMS.Controllers
         }
         public IActionResult MonthlySale(DateTime date)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             var month = Convert.ToDateTime(date).Month;
             var year = Convert.ToDateTime(date).Year;
 

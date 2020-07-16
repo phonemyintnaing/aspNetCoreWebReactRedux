@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using InitCMS.ViewModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -25,6 +26,12 @@ namespace InitCMS.Controllers
 
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             //product count
             var ProductCount = (from row in _context.Products
                           select row).Count();
