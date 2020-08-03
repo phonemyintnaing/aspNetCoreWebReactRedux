@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <!--Additional links-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.tutorialjinni.com/simplePagination.js/1.6/simplePagination.min.css" rel="stylesheet" />
     
 </head>
 <body>
@@ -24,9 +25,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
                         <a asp-controller="Store" asp-action="Index" class="nav-item nav-link active">Home</a>
-
                     </div>
-
                     <div class="navbar-nav ml-auto">
 
                         @await Component.InvokeAsync("ShoppingCartSummary")
@@ -53,9 +52,9 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        
             @RenderBody()
-        </main>
+       
     </div>
 
     <hr>
@@ -64,6 +63,7 @@
         <div class="row">
             <div class="col-md-6">
                 &copy; 2020 - Init CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                         <button type="button" class="btn btn-social-icon btn-facebook" style="color:blue; border-style:solid; border-color:blue; float:right;"><i class="fa fa-facebook"></i></button>
             </div>
         </div>
     </footer>	    
