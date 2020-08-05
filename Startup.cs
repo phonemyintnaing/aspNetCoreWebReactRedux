@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using InitCMS.Models;
+using Microsoft.Extensions.Logging;
 
 namespace InitCMS
 {
@@ -35,8 +36,12 @@ namespace InitCMS
             services.AddDbContext<InitCMSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("InitCMSContext")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<InitCMSContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(option => {
+
+                option.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<InitCMSContext>()
+                .AddDefaultTokenProviders();
 
             services.AddTransient<IOrderRepository, OrderRepository>();
 
@@ -46,13 +51,13 @@ namespace InitCMS
             services.AddMemoryCache();
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(4);//You can set Time   
+                options.IdleTimeout = TimeSpan.FromMinutes(5);//You can set Time   
             });
             services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +78,8 @@ namespace InitCMS
            
             app.UseAuthentication();
             app.UseAuthorization();
+            //For Log
+            loggerFactory.AddFile("Log/mylog-{Date}.txt");
 
             app.UseEndpoints(endpoints =>
             {
