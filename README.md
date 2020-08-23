@@ -1,1 +1,1 @@
-# aspNetCoreWebReactRedux
+# aspNetCore
