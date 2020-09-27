@@ -9302,11 +9302,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\InitCMS.csproj",
+      "projectUniqueName": "C:\\Users\\neodev\\Source\\Repos\\iStore\\InitCMS.csproj",
       "projectName": "InitCMS",
-      "projectPath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\InitCMS.csproj",
+      "projectPath": "C:\\Users\\neodev\\Source\\Repos\\iStore\\InitCMS.csproj",
       "packagesPath": "C:\\Users\\neodev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\obj\\",
+      "outputPath": "C:\\Users\\neodev\\Source\\Repos\\iStore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\neodev\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -9412,7 +9412,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

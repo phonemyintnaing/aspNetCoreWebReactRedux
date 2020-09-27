@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WAS0DFwmPd3whlyGSZTNpUQ+pX3zwj36no8kc0K8tG3TydqbDfuqh6SsmVnQRCqVtdx2q708ex0q6Z3cpMqrgA==",
+  "dgSpecHash": "BW1z8cV4SO6ga+FQphCNmQoicJuFAlpdovTADwjb4zuDwP+Umd1Xkdk62fEqVX9O5E31AMqDnE5h8kVy1CDNag==",
   "success": true,
-  "projectFilePath": "C:\\Users\\neodev\\source\\repos\\aspNetMvc\\InitCMS.csproj",
+  "projectFilePath": "C:\\Users\\neodev\\source\\repos\\iStore\\InitCMS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.0.0\\microsoft.aspnetcore.cryptography.internal.3.0.0.nupkg.sha512",
     "C:\\Users\\neodev\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.0.0\\microsoft.aspnetcore.cryptography.keyderivation.3.0.0.nupkg.sha512",

@@ -7,109 +7,88 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
-    public class CategoriesController : Controller
+    public class UnitsController : Controller
     {
         private readonly InitCMSContext _context;
 
-        public CategoriesController(InitCMSContext context)
+        public UnitsController(InitCMSContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Units
         public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
-
-            }
-            return View(await _context.Category.ToListAsync());
+            return View(await _context.Units.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Units/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
-
-            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CatId == id);
-            if (category == null)
+            var unit = await _context.Units
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(unit);
         }
 
-        // GET: Categories/Create
+        // GET: Units/Create
         public IActionResult Create()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
-
-            }
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Units/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CatId,CatTitle,CatDescription")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Label,LabelDesc,Quantity")] Unit unit)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(unit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(unit);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Units/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
-
-            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
+            var unit = await _context.Units.FindAsync(id);
+            if (unit == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(unit);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Units/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CatId,CatTitle,CatDescription")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Label,LabelDesc,Quantity")] Unit unit)
         {
-            if (id != category.CatId)
+            if (id != unit.Id)
             {
                 return NotFound();
             }
@@ -118,12 +97,12 @@ namespace InitCMS.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(unit);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CatId))
+                    if (!UnitExists(unit.Id))
                     {
                         return NotFound();
                     }
@@ -134,46 +113,41 @@ namespace InitCMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(unit);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Units/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
-
-            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CatId == id);
-            if (category == null)
+            var unit = await _context.Units
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(unit);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Units/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
+            var unit = await _context.Units.FindAsync(id);
+            _context.Units.Remove(unit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool UnitExists(int id)
         {
-            return _context.Category.Any(e => e.CatId == id);
+            return _context.Units.Any(e => e.Id == id);
         }
     }
 }

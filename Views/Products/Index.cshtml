@@ -1,17 +1,20 @@
 ﻿@model IEnumerable<InitCMS.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products List";
 }
 
-<h1>Index</h1>
-
+<h5>Products List</h5>
+<hr />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table" id="dataTable">
+<table class="table" id="datatable">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -24,9 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.PurchasePrice)
             </th>
@@ -42,9 +43,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -52,6 +51,9 @@
         @foreach (var item in Model)
         {
         <tr>
+            <td>
+                <img src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -64,9 +66,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.CatTitle)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.PurchasePrice)
             </td>
@@ -82,24 +82,26 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
-            <td>
-                <img src="@("~/images/" + item.ImagePath)" asp-append-version="true" width="50" height="50" />
-            </td>
+
 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
         }
     </tbody>
 </table>
 @section scripts{
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
-            $("#dataTable").DataTable();
+            $('#datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'print'
+                ]
+            });
         });
     </script>
-
 }

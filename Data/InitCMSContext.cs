@@ -10,16 +10,19 @@ namespace InitCMS.Data
          : base(options)
         {
 
-
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Variant> Variants { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

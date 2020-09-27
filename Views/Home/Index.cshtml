@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Admin Dashboard";
 }
 <h4>Welcome Dashboard</h4>
 <hr />
@@ -23,19 +23,12 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="card card border-success mb-3" style="max-width: 18rem;">
-            <div class="card-header">Website Visitors</div>
-            <div class="card-body text-success">
-                <h4 class="card-title">102000</h4>
-            </div>
-        </div>
-    </div>
+    
     <div class="col-sm-3">
         <div class="card card border-danger mb-3" style="max-width: 18rem;">
             <div class="card-header">Total Orders</div>
             <div class="card-body text-danger">
-                <h4 class="card-title">102000</h4>
+                <h4 class="card-title">@ViewBag.TotalOrder</h4>
             </div>
         </div>
     </div>
@@ -43,16 +36,9 @@
         <div class="card card border-secondary mb-3" style="max-width: 18rem;">
             <div class="card-header">Customer Registrations</div>
             <div class="card-body text-secondary">
-                <h4 class="card-title">102000</h4>
+                <h4 class="card-title">@ViewBag.Customer</h4>
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="card card border-secondary mb-3" style="max-width: 18rem;">
-            <div class="card-header">Customer Registrations</div>
-            <div class="card-body text-secondary">
-                <h4 class="card-title">102000</h4>
-            </div>
-        </div>
-    </div>
+   
 </div>

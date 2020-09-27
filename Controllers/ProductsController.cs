@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,24 +9,33 @@ using InitCMS.Models;
 using InitCMS.ViewModel;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
+    
     public class ProductsController : Controller
     {
         private readonly InitCMSContext _context;
         private readonly IWebHostEnvironment webHostEnvironment;
+        
         public ProductsController(InitCMSContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
+          
         }
-
+        
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            //{
+            //   return RedirectToAction("Login","Admin");
+  
+            //}
+
             var initCMSContext = _context.Products.Include(p => p.ProductCategory)
                 .Include(c=>c.Category);
            
@@ -37,6 +45,12 @@ namespace InitCMS.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            //{
+            //    return RedirectToAction("Login", "Admin");
+
+            //}
+
             if (id == null)
             {
                 return NotFound();
@@ -53,10 +67,15 @@ namespace InitCMS.Controllers
 
             return View(product);
         }
-
+        
         // GET: Products/Create
         public IActionResult Create()
         {
+            //if (HttpContext.Session.GetString("SessionEmail") == null)
+            //{
+
+            //    return RedirectToAction("Login", "Admin");
+            //}
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle");
             return View();
@@ -137,6 +156,18 @@ namespace InitCMS.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
+            if (HttpContext.Session.GetString("SessionEmail") == null)
+            {
+
+                return RedirectToAction("Login", "Admin");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -155,7 +186,7 @@ namespace InitCMS.Controllers
                 InStock = product.InStock,
                 Sale = product.Sale,
                 CreatedDate = product.CreatedDate,
-                ProductCategoryID = product.ProductCategoryID,
+                ProductCategoryID = (int)product.ProductCategoryID,
                 CategoryCatId = product.CategoryCatId,
                 PhtotPath = product.ImagePath
                 
@@ -246,6 +277,13 @@ namespace InitCMS.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
+            if (HttpContext.Session.GetString("SessionEmail") == null)
+            {
+
+                return RedirectToAction("Login", "Admin");
+            }
+
             if (id == null)
             {
                 return NotFound();
