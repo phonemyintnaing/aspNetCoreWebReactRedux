@@ -78,6 +78,7 @@ namespace InitCMS.Controllers
             //}
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle");
+            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Label");
             return View();
         }
 
@@ -105,7 +106,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo")] ProductViewModel product)
+        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,UnitId,Photo")] ProductViewModel product)
         {
             
             if (ModelState.IsValid)
@@ -124,6 +125,7 @@ namespace InitCMS.Controllers
                     CreatedDate = DateTime.Now,
                     ProductCategoryID = product.ProductCategoryID,
                     CategoryCatId = product.CategoryCatId,
+                    UnitId = product.UnitId,
                     ImagePath = uniqueFileName,
                 };
                // product = await _context.Products.SingleOrDefaultAsync(c => c.PCode == products.PCode);
@@ -134,6 +136,7 @@ namespace InitCMS.Controllers
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", product.CategoryCatId);
+            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Label", product.UnitId);
             return View(product);
         }
 

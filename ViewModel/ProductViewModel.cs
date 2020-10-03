@@ -33,6 +33,7 @@ namespace InitCMS.ViewModel
         public DateTime CreatedDate { get; set; }
         public int ProductCategoryID { get; set; }
         public int CategoryCatId { get; set; }
+        public int UnitId { get; set; }
 
         [DisplayName("File Upload")]
         public IFormFile Photo { get; set; }
