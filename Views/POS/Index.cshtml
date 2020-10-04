@@ -82,7 +82,7 @@
                     <td></td>
                     <td>SubTotal</td>
                     <td id="subtotal"></td>
-                    <td></td> 
+                    <td ></td> 
                     <td></td>
                 </tr>
             </tfoot>
@@ -94,84 +94,56 @@
     <script type="text/javascript">
         $(document).ready(function () {
           //  $('#datatable').DataTable();
-            var total = 0;
+            var total;
             
             var table = $('#datatable').DataTable();
             $('#datatable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
                 $('#disp').append('<tr><td>' + data[0] + '<br /><em>1 pc</em></td>' + '<td><input id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td id="amt">' + data[2] + '</td><td style="display:none;"><input id="amt2">' + data[2] +
-                    '</input></td><td><a id="rm" class="btn btn-danger">X</a><a id="update" class="btn btn-primary">Update</a></td><tr>');
-                //To sum Total
-                total += parseFloat(data[2]);                   
-                //Display Total
-                $('#subtotal').html(total);
+                    '</input></td><td><a id="rm" class="btn btn-danger">X</a></td><tr>');
+               //Calling Total
+                calc_total();
             });
             //Delete
             $(document).on('click', '#rm', function () {
-                //get price from specific row
-                var substract = $(this).closest('tr').find('#amt').text();                
-                total -= parseFloat(substract);                
-                //Display Total
-                $('#subtotal').html(total);
-                //remove the row
+               //click delete
                 $(this).closest('tr').remove();
+                //calling total
+                calc_total();
             });
-            //var itemAmount = 0;
-            //var orAmount = 0;
-            ////qty input price change
-            //$(document).on('click change keyup', '#qty', function () {
-    
-            //    price = $(this).closest('tr').find(':hidden').text();
-            //    qty = $(this).closest('tr').find('#qty').val(); 
-            //    $(this).closest('tr').find('#amt').html((parseFloat(price) * qty));
-            //    itemAmount = (parseFloat(price) * qty);
-            //    orAmount = $(this).closest('tr').find('#amt').val();
-            //});
 
-            //$(document).on('click', '#update', function () {
-            //    total += itemAmount - orAmount;
-            //    $('#subtotal').html(total);            
-            //});  
-
-            //$('#disp').on('change', '#amt', function () {
-            //    total = 0;
-            //    $('#subtotal').html(total);
-            //});
-
-            $(document).on('keyup change click', '#qty', function () {
-                console.log("Call!");
+            $('#disp').on('keyup change', function () {
+               //calling subtotal
                 calc();
               
             });
                       
             function calc() {             
-                console.log(" Cal_function");
-                $('#disp tbody tr').each(function () {                    
+                
+                $('#disp tr').each(function () {                    
                     var html = $(this).html();
                     if (html != "") {
-                        console.log("inside calFunction");
                         var qty = $(this).find('#qty').val();
-                        var price = $(this).find('#amt').val();
-                        console.log(qty + ' , ' + price);
+                        var price = parseFloat($(this).find(':hidden').text());
                         //var gst_total = (qty * price * gst) / 100;
                         $(this).find('#amt').html(qty * price);
+                        //calling total
                         calc_total();
                     }
                 });
             }
 
             function calc_total() {
-                total = 0;
-                console.log("Call Total");
-                $("#amt").each(function () {
-                    total += parseInt($(this).val());
+                total = 0;               
+                $('#disp tr #amt').each(function () {                   
+                    total += parseFloat($(this).text());                    
                 });
-                $("#subtotal").val(total.toFixed(2));
+                $("#subtotal").html(total);       
+                
                // tax_sum = (total / 100) * $("#gst").val();
                //$("#tax_amount").val(tax_sum.toFixed(2));
                //$("#total_amount").val((tax_sum + total).toFixed(2));
-            }
-
+            }           
 
         });
     </script>
