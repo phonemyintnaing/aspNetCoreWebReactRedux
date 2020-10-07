@@ -17,6 +17,9 @@ namespace InitCMS.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Variant> Variants { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }

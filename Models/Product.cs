@@ -27,8 +27,6 @@ namespace InitCMS.Models
         [Column(TypeName = "decimal(18,2)")]
         [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal? SellPrice { get; set; }
-        [DisplayName("In Stock")]
-        public int? InStock { get; set; }
         [DisplayName("Sale")]
         public int? Sale { get; set; }
         [DataType(DataType.Date)]
@@ -45,7 +43,7 @@ namespace InitCMS.Models
         public bool IsSelected { get; set; }
         public int? BrandId { get; set; }
         public Brand Brand { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public Unit Unit { get; set; }
         public int? VariantId { get; set; }
         public Variant Variant { get; set; }

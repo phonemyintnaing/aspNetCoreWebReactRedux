@@ -11,7 +11,7 @@
         <table class="table-hover" id="datatable">
             <thead>
                 <tr>
-
+                    
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
@@ -47,13 +47,13 @@
                         @Html.DisplayFor(modelItem => item.SellPrice)
                     </td>   
                     <td>
-                        @Html.DisplayFor(modelItem => item.UnitId)
+                        @Html.DisplayFor(modelItem => item.Unit.Label)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Category.CatId)
+                        @Html.DisplayFor(modelItem => item.Category.CatTitle)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Variant.Id)
+                        @Html.DisplayFor(modelItem => item.Variant.VarOptOne)
                     </td>
                     <td><a class="btn btn-success">Detail</a>
                 </tr>

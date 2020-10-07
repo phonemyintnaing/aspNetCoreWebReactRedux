@@ -39,7 +39,6 @@ namespace InitCMS.Models
         [Display(Name = "City")]
         public string State { get; set; }
 
-        [Required(ErrorMessage = "Please enter your country")]
         [StringLength(50)]
         public string Country { get; set; }
 

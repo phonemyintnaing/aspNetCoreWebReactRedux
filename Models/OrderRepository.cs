@@ -1,5 +1,4 @@
 ﻿using InitCMS.Data;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System;
 
 namespace InitCMS.Models

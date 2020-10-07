@@ -120,7 +120,7 @@ namespace InitCMS.Controllers
                     Description = product.Description,
                     PurchasePrice = (decimal)product.PurchasePrice,
                     SellPrice = product.SellPrice,
-                    InStock = product.InStock,
+                 
                     Sale = product.Sale,
                     CreatedDate = DateTime.Now,
                     ProductCategoryID = product.ProductCategoryID,
@@ -186,7 +186,7 @@ namespace InitCMS.Controllers
                 Description = product.Description,
                 PurchasePrice = product.PurchasePrice,
                 SellPrice = (decimal)product.SellPrice,
-                InStock = product.InStock,
+                
                 Sale = product.Sale,
                 CreatedDate = product.CreatedDate,
                 ProductCategoryID = (int)product.ProductCategoryID,
@@ -208,7 +208,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo,PhtotPath")] ProductEditViewModel productVM)
+        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo,PhtotPath")] ProductEditViewModel productVM)
         {
             if (id != productVM.Id)
             {
@@ -231,7 +231,7 @@ namespace InitCMS.Controllers
                             Description = productVM.Description,
                             PurchasePrice = (decimal)productVM.PurchasePrice,
                             SellPrice = productVM.SellPrice,
-                            InStock = productVM.InStock,
+                           
                             Sale = productVM.Sale,
                             CreatedDate = DateTime.Now,
                             ProductCategoryID = productVM.ProductCategoryID,

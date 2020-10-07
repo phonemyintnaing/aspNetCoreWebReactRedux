@@ -57,6 +57,21 @@ namespace InitCMS.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("InitCMS.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("InitCMS.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -73,7 +88,6 @@ namespace InitCMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -166,9 +180,6 @@ namespace InitCMS.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("InStock")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsSelected")
                         .HasColumnType("bit");
 
@@ -196,7 +207,7 @@ namespace InitCMS.Migrations
                     b.Property<decimal?>("SellPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnitId")
+                    b.Property<int?>("UnitId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VariantId")
@@ -239,6 +250,39 @@ namespace InitCMS.Migrations
                     b.ToTable("ProductCategory");
                 });
 
+            modelBuilder.Entity("InitCMS.Models.Sale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SlipNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sales");
+                });
+
             modelBuilder.Entity("InitCMS.Models.ShoppingCartItem", b =>
                 {
                     b.Property<int>("ShoppingCartItemId")
@@ -260,6 +304,24 @@ namespace InitCMS.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ShoppingCartItems");
+                });
+
+            modelBuilder.Entity("InitCMS.Models.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("InitCMS.Models.Unit", b =>
@@ -558,9 +620,7 @@ namespace InitCMS.Migrations
 
                     b.HasOne("InitCMS.Models.Unit", "Unit")
                         .WithMany("Products")
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitId");
 
                     b.HasOne("InitCMS.Models.Variant", "Variant")
                         .WithMany("Products")

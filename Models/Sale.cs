@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace InitCMS.Models
 {
-    public class Variant
+    public class Sale
     {
         [Key]
         public int Id { get; set; }
-        public string VarOptOne { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? VarOptTwo { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public decimal Total { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int StoreId { get; set; }
+        public int CustomerId { get; set; }
+        public string SlipNumber { get; set; }
+
     }
 }

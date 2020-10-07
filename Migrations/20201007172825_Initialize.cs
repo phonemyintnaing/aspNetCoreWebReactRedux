@@ -75,6 +75,19 @@ namespace InitCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -86,7 +99,7 @@ namespace InitCMS.Migrations
                     AddressLine2 = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(maxLength: 10, nullable: true),
                     State = table.Column<string>(maxLength: 10, nullable: true),
-                    Country = table.Column<string>(maxLength: 50, nullable: false),
+                    Country = table.Column<string>(maxLength: 50, nullable: true),
                     PhoneNumber = table.Column<string>(maxLength: 25, nullable: false),
                     Email = table.Column<string>(maxLength: 50, nullable: false),
                     OrderTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -112,6 +125,39 @@ namespace InitCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    StoreId = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    SlipNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sales", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Units",
                 columns: table => new
                 {
@@ -119,7 +165,7 @@ namespace InitCMS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(nullable: true),
                     LabelDesc = table.Column<string>(nullable: true),
-                    Quantity = table.Column<decimal>(nullable: true)
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -148,7 +194,7 @@ namespace InitCMS.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VarOptOne = table.Column<string>(nullable: true),
-                    VarOptTwo = table.Column<decimal>(nullable: true)
+                    VarOptTwo = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,7 +319,6 @@ namespace InitCMS.Migrations
                     LongDesc = table.Column<string>(nullable: true),
                     PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    InStock = table.Column<int>(nullable: true),
                     Sale = table.Column<int>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ProductCategoryID = table.Column<int>(nullable: true),
@@ -281,7 +326,7 @@ namespace InitCMS.Migrations
                     ImagePath = table.Column<string>(nullable: true),
                     IsSelected = table.Column<bool>(nullable: false),
                     BrandId = table.Column<int>(nullable: true),
-                    UnitId = table.Column<int>(nullable: false),
+                    UnitId = table.Column<int>(nullable: true),
                     VariantId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -310,7 +355,7 @@ namespace InitCMS.Migrations
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Product_Variants_VariantId",
                         column: x => x.VariantId,
@@ -480,10 +525,19 @@ namespace InitCMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
+                name: "Sales");
+
+            migrationBuilder.DropTable(
                 name: "ShoppingCartItems");
+
+            migrationBuilder.DropTable(
+                name: "Stores");
 
             migrationBuilder.DropTable(
                 name: "User");
