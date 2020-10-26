@@ -4,14 +4,16 @@ using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InitCMS.Migrations
 {
     [DbContext(typeof(InitCMSContext))]
-    partial class InitCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20201017103127_SaleReceiptModel")]
+    partial class SaleReceiptModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,27 +250,6 @@ namespace InitCMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategory");
-                });
-
-            modelBuilder.Entity("InitCMS.Models.Receipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReceiptDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("InitCMS.Models.Sale", b =>
