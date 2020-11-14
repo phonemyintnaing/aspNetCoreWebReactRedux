@@ -2,7 +2,7 @@
 
 namespace InitCMS.Models
 {
-    public class Customer
+    public class Supplier
     {
         public int Id { get; set; }
         [MaxLength(50)]

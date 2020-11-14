@@ -6,8 +6,8 @@
 }
 
 <br />
-<div class="row" id="hidden">
-    <div class="col-sm-8">
+<div class="row d-print-none" id="hidden">
+    <div class="col-sm-8 table-responsive">
         <table class="table-hover" id="datatable">
             <thead>
                 <tr>
@@ -69,7 +69,23 @@
     <!--End of Div col8-->
     <div class="col-sm-4 bg-light">
         <h4>Bill</h4>
-        <button id="cutomer" value="1">Walk In Customer</button><button id="1">Store One</button>
+        <div class="col-sm-12">
+            <select id='dropdownid'>
+                <option value='1'>WalkIn Customer</option>
+                <option value='2'>CustomerOne</option>
+                <option value='3'>CustomerTwo</option>
+                <option value='4'>CustomerThree</option>
+                <option value='5'>CustomerFour</option>
+            </select>
+            <select id='dropdownid'>
+                <option value='1'>WarehouseOne</option>
+                <option value='2'>WarehouseTwo</option>
+                <option value='3'>WarehouseThree</option>
+                <option value='4'>WarehouseFour</option>
+                <option value='5'>WarehouseFive</option>
+            </select>
+        </div>
+        <br />
         <table class="table" style="font-size:14px;">
             <thead>
                 <tr>
@@ -93,8 +109,8 @@
             </tfoot>
         </table>
         <hr />
-        <div class="col-sm-4"><a id="paybill" class="btn btn-success text-white" data-toggle="modal" data-target="#centralModalSm">Pay</a></div>
-        
+        <div class="col-sm-4"><a id="paybill" class="btn btn-success text-white" data-toggle="modal" data-target="#centralModalSm">Pay</a></div>      
+        <hr />
     </div>
 
 </div>
@@ -108,18 +124,19 @@
 
 
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title w-100 text-center" id="myModalLabel">Init POS</h4>
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100" id="myModalLabel">Init POS</h4>
+                <h6 class="modal-title w-25" id="myModalLabel">RefNo : <text id="refno"></text></h6>
             </div>
+  
             <div class="modal-body">
-               
-                <table class="table" style="font-size:12px;">
+
+                <table class="table table-borderless" style="font-size:12px;">
                     <thead>
                         <tr>
-                            <td>Product</td>
+                            <td>Item</td>
                             <td>Qty</td>
                             <td>Price</td>
-                            
                         </tr>
                     </thead>
                     <tbody id="mdisp">
@@ -127,21 +144,21 @@
                     <tfoot>
                         <tr>
                             <td></td>
-                            <td>SubTotal</td>
-                            <td id="msubtotal"></td>                            
+                            <td>Total</td>
+                            <td id="msubtotal"></td>
                         </tr>
                     </tfoot>
                 </table>
+                <text class="text-center">Thanks for your trust!</text>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" id="print" >Print</button>
+            <div class="modal-footer d-print-none">
+                <button type="button" class="btn btn-secondary btn-sm" id="close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="window.print()" >Print</button>
             </div>
         </div>
     </div>
 </div>
 <!-- Central Modal Small -->
-
 
 
 @section scripts{
@@ -207,9 +224,6 @@
 
             $("#paybill").on('click', function () {
 
-                console.log("paybill");
-               
-                // window.print();
                 var sale = new Array();
                 $('#disp tr').each(function (index) {
                     var obj = {};
@@ -225,35 +239,9 @@
 
                     CustomerId: 2,
                     StoreId: 2
-                };
-                
-                var salePrint = new Array();
-                salePrint = [];
-                $('#disp tr').each(function (index) {
-                    var obj = {};
-                    obj.ProductName = $(this).find('#pname').text();
-                    obj.Quantity = $(this).find('#qty').val();
-                    obj.Total = $(this).find('#amt').text();
-                    if (obj.ProductName != null && obj.Quantity != null) {
-                        salePrint.push(obj);
-                    }
-                });
-                
-                salePrint.forEach(function (item) { $("#mdisp").append('<tr><td>' + item.ProductName + '</td><td>' + item.Quantity + '</td><td>' + item.Total + '</td></tr>'); });     
-                
-                //SubTotal
-                $('#msubtotal').html($('#subtotal').text());
-                //remove Item
-                
-                $('#print').on('click', function () {
-                    $('#disp tr').remove();
-                    $('#subtotal').remove();
-                    $('#mdisp tr').remove();
-                    $('#msubtotal').remove();
-                });
-
-
-                @*$.ajax({
+                };               
+       
+                $.ajax({
 
                     url: '@Url.Action("BillPay", "POS")',
                     type: 'post',
@@ -262,14 +250,41 @@
                     data: JSON.stringify({ sale: sale, receipt: receipt }),
 
                     success: function (data, status) {
-                       console.log('the request(Success) is ' + status + ' the data is ' + data);
-                       alert(status + data);
+                      // console.log('the request(Success) is ' + status + ' the data is ' + data);
+                        //Printing 
+                        $('#refno').html(data);
+
+                        var salePrint = new Array();
+                        salePrint = [];
+                        $('#disp tr').each(function (index) {
+                            var obj = {};
+                            obj.ProductName = $(this).find('#pname').text();
+                            obj.Quantity = $(this).find('#qty').val();
+                            obj.Total = $(this).find('#amt').text();
+                            if (obj.ProductName != null && obj.Quantity != null) {
+                                salePrint.push(obj);
+                            }
+                        });
+
+                        salePrint.forEach(function (item) { $("#mdisp").append('<tr><td>' + item.ProductName + '</td><td>' + item.Quantity + '</td><td>' + item.Total + '</td></tr>'); });
+
+                        //SubTotal
+                        $('#msubtotal').html($('#subtotal').text());
+                        //remove Item
+
+                        $('#close').on('click', function () {
+                            $('#disp tr').remove();
+                            $('#subtotal').remove();
+                            $('#mdisp tr').remove();
+                            $('#msubtotal').remove();
+                        });
+
                         },
                     error: function (error) {
                        console.log('the request(Error) is ' + error);
                         alert(error);
                         }
-                });*@
+                });
                 
             });
 

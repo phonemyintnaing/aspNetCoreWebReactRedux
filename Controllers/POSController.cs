@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
-using InitCMS.Models;
 using InitCMS.ViewModel;
-using System.Collections.Generic;
 
 namespace InitCMS.Controllers
 {
@@ -44,7 +41,7 @@ namespace InitCMS.Controllers
                     _context.SaveChanges();
                     transaction.Commit();
 
-                    return Json("success  " + model.Receipt.Id + model);
+                    return Json(model.Receipt.Id);
                 }
                 catch (Exception)
                 {

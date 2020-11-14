@@ -1,0 +1,90 @@
+﻿@model InitCMS.ViewModel.POViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>POViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="RefNumber" class="control-label"></label>
+                <input asp-for="RefNumber" class="form-control" />
+                <span asp-validation-for="RefNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierId" class="control-label"></label>
+                <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StoreId" class="control-label"></label>
+                <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
+                <span asp-validation-for="StoreId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCost" class="control-label"></label>
+                <input asp-for="TotalCost" class="form-control" />
+                <span asp-validation-for="TotalCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusId" class="control-label"></label>
+                <input asp-for="StatusId" class="form-control" />
+                <span asp-validation-for="StatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PODate" class="control-label"></label>
+                <input asp-for="PODate" class="form-control" />
+                <span asp-validation-for="PODate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

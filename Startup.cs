@@ -74,7 +74,7 @@ namespace InitCMS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=POS}/{action=Index}/{id?}");
+                    pattern: "{controller=PurchaseOrder}/{action=Index}/{id?}");
             });
         }
     }

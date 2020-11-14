@@ -1,0 +1,19 @@
+﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace InitCMS.Models
+{
+    public class Sale
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ReceiptId { get; set; }
+        public int ProductId { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Quantity { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Total { get; set; }
+
+    }
+}
