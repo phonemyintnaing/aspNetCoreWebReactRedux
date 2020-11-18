@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.ViewModel;
+using InitCMS.Models;
+using System;
 
 namespace InitCMS.Controllers
 {
@@ -49,8 +51,9 @@ namespace InitCMS.Controllers
         public IActionResult Create()
         {
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id");
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Title");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
+            ViewData["POStatusId"] = new SelectList(_context.POStatuses, "Id", "Title");
             return View();
         }
 
@@ -63,14 +66,40 @@ namespace InitCMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pOViewModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using var transaction = _context.Database.BeginTransaction();
+                try
+                {
+                    _context.Add(pOViewModel);
+                    await _context.SaveChangesAsync();
+                    //Insert into Stock
+                    var stocks = new Stock
+                    {
+                        POId = pOViewModel.Id,
+                        ProductId = pOViewModel.ProductId,
+                        Quantity = pOViewModel.Quantity,
+                        StockDate = DateTime.Now,
+                        StockInStatus = 2, //POS 1, PO 2, StockAdjustment 3
+                        UserId = 2 //pOViewModel.UserId
+                    };
+                    _context.Add(stocks);
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return NotFound();
+                }
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", pOViewModel.StoreId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", pOViewModel.SupplierId);
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Title", pOViewModel.StoreId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", pOViewModel.SupplierId);
+            ViewData["POStatusId"] = new SelectList(_context.POStatuses, "Id", "Title", pOViewModel.StatusId);
             return View(pOViewModel);
+
         }
 
         // GET: PurchaseOrder/Edit/5
@@ -142,6 +171,7 @@ namespace InitCMS.Controllers
                 .Include(p => p.Product)
                 .Include(p => p.Store)
                 .Include(p => p.Supplier)
+                .Include(p => p.POStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pOViewModel == null)
             {

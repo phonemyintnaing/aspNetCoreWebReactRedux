@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace InitCMS.Models
@@ -10,7 +11,8 @@ namespace InitCMS.Models
         public int CustomerId { get; set; } 
         public int StoreId { get; set; } 
         public DateTime ReceiptDate { get; set; } = DateTime.Now;
-      
+        public ICollection<Sale> Sale { get; set; }
+
     }
    
 

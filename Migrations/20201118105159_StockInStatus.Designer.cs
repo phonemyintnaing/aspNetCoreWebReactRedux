@@ -4,14 +4,16 @@ using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InitCMS.Migrations
 {
     [DbContext(typeof(InitCMSContext))]
-    partial class InitCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20201118105159_StockInStatus")]
+    partial class StockInStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,8 +323,6 @@ namespace InitCMS.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReceiptId");
 
                     b.ToTable("Sales");
                 });
@@ -785,15 +785,6 @@ namespace InitCMS.Migrations
                     b.HasOne("InitCMS.Models.Variant", "Variant")
                         .WithMany("Products")
                         .HasForeignKey("VariantId");
-                });
-
-            modelBuilder.Entity("InitCMS.Models.Sale", b =>
-                {
-                    b.HasOne("InitCMS.Models.Receipt", "Receipt")
-                        .WithMany("Sale")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("InitCMS.Models.ShoppingCartItem", b =>

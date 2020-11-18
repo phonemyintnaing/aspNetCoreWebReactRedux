@@ -52,18 +52,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="StatusId" class="control-label"></label>
-                <input asp-for="StatusId" class="form-control" />
-                <span asp-validation-for="StatusId" class="text-danger"></span>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.POStatusId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Note" class="control-label"></label>
                 <input asp-for="Note" class="form-control" />
                 <span asp-validation-for="Note" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PODate" class="control-label"></label>
-                <input asp-for="PODate" class="form-control" />
-                <span asp-validation-for="PODate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>

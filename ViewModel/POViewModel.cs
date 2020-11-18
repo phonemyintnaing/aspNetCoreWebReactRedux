@@ -26,7 +26,7 @@ namespace InitCMS.ViewModel
         public int StatusId { get; set; }
         public POStatus POStatus { get; set; }
         public string Note { get; set; }
-        public DateTime PODate { get; set; }
+        public DateTime PODate { get; set; } = DateTime.Now;
         public int UserId { get; set; }
 
     }

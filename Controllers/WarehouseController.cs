@@ -7,22 +7,22 @@ using InitCMS.Models;
 
 namespace InitCMS.Controllers
 {
-    public class POStatusController : Controller
+    public class WarehouseController : Controller
     {
         private readonly InitCMSContext _context;
 
-        public POStatusController(InitCMSContext context)
+        public WarehouseController(InitCMSContext context)
         {
             _context = context;
         }
 
-        // GET: POStatus
+        // GET: Warehouse
         public async Task<IActionResult> Index()
         {
-            return View(await _context.POStatuses.ToListAsync());
+            return View(await _context.Stores.ToListAsync());
         }
 
-        // GET: POStatus/Details/5
+        // GET: Warehouse/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,39 +30,39 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses
+            var store = await _context.Stores
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pOStatus == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return View(pOStatus);
+            return View(store);
         }
 
-        // GET: POStatus/Create
+        // GET: Warehouse/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: POStatus/Create
+        // POST: Warehouse/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description")] POStatus pOStatus)
+        public async Task<IActionResult> Create([Bind("Id,Title,Location")] Store store)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pOStatus);
+                _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pOStatus);
+            return View(store);
         }
 
-        // GET: POStatus/Edit/5
+        // GET: Warehouse/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,22 +70,22 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses.FindAsync(id);
-            if (pOStatus == null)
+            var store = await _context.Stores.FindAsync(id);
+            if (store == null)
             {
                 return NotFound();
             }
-            return View(pOStatus);
+            return View(store);
         }
 
-        // POST: POStatus/Edit/5
+        // POST: Warehouse/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] POStatus pOStatus)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Location")] Store store)
         {
-            if (id != pOStatus.Id)
+            if (id != store.Id)
             {
                 return NotFound();
             }
@@ -94,12 +94,12 @@ namespace InitCMS.Controllers
             {
                 try
                 {
-                    _context.Update(pOStatus);
+                    _context.Update(store);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!POStatusExists(pOStatus.Id))
+                    if (!StoreExists(store.Id))
                     {
                         return NotFound();
                     }
@@ -110,10 +110,10 @@ namespace InitCMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pOStatus);
+            return View(store);
         }
 
-        // GET: POStatus/Delete/5
+        // GET: Warehouse/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,30 +121,30 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses
+            var store = await _context.Stores
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pOStatus == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return View(pOStatus);
+            return View(store);
         }
 
-        // POST: POStatus/Delete/5
+        // POST: Warehouse/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pOStatus = await _context.POStatuses.FindAsync(id);
-            _context.POStatuses.Remove(pOStatus);
+            var store = await _context.Stores.FindAsync(id);
+            _context.Stores.Remove(store);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool POStatusExists(int id)
+        private bool StoreExists(int id)
         {
-            return _context.POStatuses.Any(e => e.Id == id);
+            return _context.Stores.Any(e => e.Id == id);
         }
     }
 }

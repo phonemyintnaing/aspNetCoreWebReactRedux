@@ -1,28 +1,39 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InitCMS.Controllers
 {
-    public class POStatusController : Controller
+    public class StocksController : Controller
     {
         private readonly InitCMSContext _context;
 
-        public POStatusController(InitCMSContext context)
+        public StocksController(InitCMSContext context)
         {
             _context = context;
         }
 
-        // GET: POStatus
+        // GET: Stocks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.POStatuses.ToListAsync());
+            List<Stock> stocks = await _context.Stocks
+                .Include(p => p.Products)
+                  .GroupBy(w => w.ProductId)
+                  .Select(s => new Stock
+                  {
+                     ProductId = s.Key,
+                     Quantity = s.Sum(x => x.Quantity)
+                  }).ToListAsync();
+            
+            return View(stocks);
         }
 
-        // GET: POStatus/Details/5
+        // GET: Stocks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,39 +41,48 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses
+            var stock = await _context.Stocks
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pOStatus == null)
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            return View(pOStatus);
+            return View(stock);
         }
 
-        // GET: POStatus/Create
+        // GET: Stocks/Create
         public IActionResult Create()
         {
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }
 
-        // POST: POStatus/Create
+        // POST: Stocks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description")] POStatus pOStatus)
+        public async Task<IActionResult> Create([Bind("Id,POId,ProductId,Quantity,StockDate,StockInStatus,UserId")] Stock stock)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pOStatus);
+                var stocks = new Stock
+                {
+                    ProductId = stock.ProductId,
+                    Quantity = stock.Quantity,
+                    StockDate = System.DateTime.Now,
+                    StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
+                    UserId = 3
+                };
+                _context.Add(stocks);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pOStatus);
+            return View(stock);
         }
 
-        // GET: POStatus/Edit/5
+        // GET: Stocks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,22 +90,23 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses.FindAsync(id);
-            if (pOStatus == null)
+            var stock = await _context.Stocks.FindAsync(id);
+            if (stock == null)
             {
                 return NotFound();
             }
-            return View(pOStatus);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
+            return View(stock);
         }
 
-        // POST: POStatus/Edit/5
+        // POST: Stocks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] POStatus pOStatus)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,POId,ProductId,Quantity,StockDate,UserId")] Stock stock)
         {
-            if (id != pOStatus.Id)
+            if (id != stock.Id)
             {
                 return NotFound();
             }
@@ -94,12 +115,12 @@ namespace InitCMS.Controllers
             {
                 try
                 {
-                    _context.Update(pOStatus);
+                    _context.Update(stock);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!POStatusExists(pOStatus.Id))
+                    if (!StockExists(stock.Id))
                     {
                         return NotFound();
                     }
@@ -110,10 +131,10 @@ namespace InitCMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pOStatus);
+            return View(stock);
         }
 
-        // GET: POStatus/Delete/5
+        // GET: Stocks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,30 +142,33 @@ namespace InitCMS.Controllers
                 return NotFound();
             }
 
-            var pOStatus = await _context.POStatuses
+            var stock = await _context.Stocks
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pOStatus == null)
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            return View(pOStatus);
+            return View(stock);
         }
 
-        // POST: POStatus/Delete/5
+        // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pOStatus = await _context.POStatuses.FindAsync(id);
-            _context.POStatuses.Remove(pOStatus);
+            var stock = await _context.Stocks.FindAsync(id);
+            _context.Stocks.Remove(stock);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool POStatusExists(int id)
+        private bool StockExists(int id)
         {
-            return _context.POStatuses.Any(e => e.Id == id);
+            return _context.Stocks.Any(e => e.Id == id);
         }
     }
+    //Extension Class
+   
+
 }

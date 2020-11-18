@@ -9,6 +9,7 @@ namespace InitCMS.Models
         [Key]
         public int Id { get; set; }
         public int ReceiptId { get; set; }
+        public  Receipt Receipt { get; set; }
         public int ProductId { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Quantity { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,6 +48,7 @@ namespace InitCMS.Models
         public Unit Unit { get; set; }
         public int? VariantId { get; set; }
         public Variant Variant { get; set; }
-       
+        public virtual ICollection<Stock> Stock { get; set; }
+
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.ViewModel;
+using InitCMS.Models;
 
 namespace InitCMS.Controllers
 {
@@ -26,29 +27,39 @@ namespace InitCMS.Controllers
         [HttpPost]
         public IActionResult BillPay([FromBody]ReceiptSaleViewModel model)
         {
-            using (var transaction = _context.Database.BeginTransaction())
+            using var transaction = _context.Database.BeginTransaction();
+            try
             {
-                try
+               _context.Receipts.Add(model.Receipt);
+               _context.SaveChanges();
+                foreach (var item in model.Sale)
                 {
-                  _context.Receipts.Add(model.Receipt);
 
-                    foreach (var item in model.Sale)
+                     item.ReceiptId = model.Receipt.Id;
+                    _context.Sales.Add(item);
+
+                    ////Insert into Stock
+                    var stocks = new Stock
                     {
-                        item.ReceiptId = model.Receipt.Id;
-                        _context.Sales.Add(item);
-
-                    }
+                        ProductId = item.ProductId,
+                        Quantity = -item.Quantity,
+                        StockDate = DateTime.Now,
+                        StockInStatus = 1, //POS 1, PO 2, StockAdjustment 3
+                        UserId = 1
+                    };
+                    _context.Stocks.Add(stocks);
                     _context.SaveChanges();
-                    transaction.Commit();
 
-                    return Json(model.Receipt.Id);
                 }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    return Json("fail");
-                }
+                _context.SaveChanges();
+                transaction.Commit();
 
+                return Json(model.Receipt.Id);
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return Json("fail");
             }
 
         }

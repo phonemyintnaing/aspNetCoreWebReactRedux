@@ -26,6 +26,10 @@
     <Compile Remove="Migrations\20200702211201_Order.Designer.cs" />
     <Compile Remove="Migrations\20200702211525_OrderManagement.cs" />
     <Compile Remove="Migrations\20200702211525_OrderManagement.Designer.cs" />
+    <Compile Remove="Migrations\20201118104719_StockInStatus.cs" />
+    <Compile Remove="Migrations\20201118104719_StockInStatus.Designer.cs" />
+    <Compile Remove="Migrations\20201118122103_ReceiptSaleModelUpdate.cs" />
+    <Compile Remove="Migrations\20201118122103_ReceiptSaleModelUpdate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
