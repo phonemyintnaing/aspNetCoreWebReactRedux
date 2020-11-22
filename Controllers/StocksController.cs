@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using InitCMS.ViewModel;
 
 namespace InitCMS.Controllers
 {
@@ -21,35 +22,20 @@ namespace InitCMS.Controllers
         // GET: Stocks
         public async Task<IActionResult> Index()
         {
-            List<Stock> stocks = await _context.Stocks
-                .Include(p => p.Products)
-                  .GroupBy(w => w.ProductId)
-                  .Select(s => new Stock
-                  {
-                     ProductId = s.Key,
-                     Quantity = s.Sum(x => x.Quantity)
-                  }).ToListAsync();
+            var query = from b in _context.Stocks
+                        join p in _context.Products
+                            on b.ProductId equals p.Id
+                        select new { p.Name, b.Quantity } into x
+                        group x by new { x.Name } into g
+                        select ( new StockProductViewModel
+                        {
+                            ProductName = g.Key.Name,                           
+                            Quantity = g.Sum(x => x.Quantity)
+                        });
             
-            return View(stocks);
+            return View(await query.ToListAsync());
         }
 
-        // GET: Stocks/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var stock = await _context.Stocks
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (stock == null)
-            {
-                return NotFound();
-            }
-
-            return View(stock);
-        }
 
         // GET: Stocks/Create
         public IActionResult Create()
@@ -80,87 +66,6 @@ namespace InitCMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(stock);
-        }
-
-        // GET: Stocks/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var stock = await _context.Stocks.FindAsync(id);
-            if (stock == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
-            return View(stock);
-        }
-
-        // POST: Stocks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,POId,ProductId,Quantity,StockDate,UserId")] Stock stock)
-        {
-            if (id != stock.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(stock);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StockExists(stock.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(stock);
-        }
-
-        // GET: Stocks/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var stock = await _context.Stocks
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (stock == null)
-            {
-                return NotFound();
-            }
-
-            return View(stock);
-        }
-
-        // POST: Stocks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var stock = await _context.Stocks.FindAsync(id);
-            _context.Stocks.Remove(stock);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool StockExists(int id)

@@ -23,7 +23,7 @@ namespace InitCMS.ViewModel
         public decimal Discount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalCost { get; set; }
-        public int StatusId { get; set; }
+        public int POStatusId { get; set; }
         public POStatus POStatus { get; set; }
         public string Note { get; set; }
         public DateTime PODate { get; set; } = DateTime.Now;

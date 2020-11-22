@@ -22,7 +22,7 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder
         public async Task<IActionResult> Index()
         {
-            var initCMSContext = _context.POViewModels.Include(p => p.Product).Include(p => p.Store).Include(p => p.Supplier);
+            var initCMSContext = _context.POViewModels.Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier);
             return View(await initCMSContext.ToListAsync());
         }
 
@@ -97,7 +97,7 @@ namespace InitCMS.Controllers
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
             ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Title", pOViewModel.StoreId);
             ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", pOViewModel.SupplierId);
-            ViewData["POStatusId"] = new SelectList(_context.POStatuses, "Id", "Title", pOViewModel.StatusId);
+            ViewData["POStatusId"] = new SelectList(_context.POStatuses, "Id", "Title", pOViewModel.POStatusId);
             return View(pOViewModel);
 
         }

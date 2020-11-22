@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InitCMS.Models.Stock>
+﻿@model IEnumerable<InitCMS.ViewModel.StockProductViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,31 +8,27 @@
 <h4>Stock Quantity List</h4>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Stock Adjustment</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
+                @Html.DisplayNameFor(model => model.ProductName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-           <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductId) 
+                @Html.DisplayFor(modelItem => item.ProductName) 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
             </td>
         </tr>
 }
