@@ -68,7 +68,11 @@
                     }
                     else
                     {
-                        @ViewData["Email"] @Html.ActionLink("Logout", "Logout", "Admin")
+                        <form method="post" asp-action="Logout" asp-controller="Admin">
+                            <button type="submit" class="nav-link btn nav-link " style="width:auto">
+                                @Context.Session.GetString("SessionEmail") Logout
+                            </button>
+                        </form>
                     }
                 </div>
             </div>

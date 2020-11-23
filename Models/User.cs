@@ -13,7 +13,7 @@ namespace InitCMS.Models
         public string UserName { get; set; }
         [Required]
         [DisplayName("Email")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress)] 
         [Remote(action: "VerifyEmail", controller: "Users")]
         public string UserEmail { get; set; }
         [Required]
