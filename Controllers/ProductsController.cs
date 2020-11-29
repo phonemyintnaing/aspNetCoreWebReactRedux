@@ -22,9 +22,8 @@ namespace InitCMS.Controllers
         
         public ProductsController(InitCMSContext context, IWebHostEnvironment hostEnvironment)
         {
-            _context = context;
             webHostEnvironment = hostEnvironment;
-          
+            _context = context;
         }
         
         // GET: Products
@@ -79,8 +78,10 @@ namespace InitCMS.Controllers
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle");
             ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Label");
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "BrandName");
+            ViewData["VariantId"] = new SelectList(_context.Variants, "Id", "VarOptOne");
             return View();
-        }
+        } 
 
         //Remote Validation for Product Code
         [AcceptVerbs("Get", "Post")]
@@ -106,7 +107,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,UnitId,Photo")] ProductViewModel product)
+        public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,UnitId,BrandId,VariantId,IsSelected,Photo")] ProductViewModel product)
         {
             
             if (ModelState.IsValid)
@@ -126,6 +127,9 @@ namespace InitCMS.Controllers
                     ProductCategoryID = product.ProductCategoryID,
                     CategoryCatId = product.CategoryCatId,
                     UnitId = product.UnitId,
+                    BrandId = product.BrandId,
+                    VariantId = product.VariantId,
+                    IsSelected = product.IsSelected,
                     ImagePath = uniqueFileName,
                 };
                // product = await _context.Products.SingleOrDefaultAsync(c => c.PCode == products.PCode);
@@ -137,6 +141,8 @@ namespace InitCMS.Controllers
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", product.CategoryCatId);
             ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Label", product.UnitId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "BrandName");
+            ViewData["VariantId"] = new SelectList(_context.Variants, "Id", "VarOptOne");
             return View(product);
         }
 
@@ -191,6 +197,10 @@ namespace InitCMS.Controllers
                 CreatedDate = product.CreatedDate,
                 ProductCategoryID = (int)product.ProductCategoryID,
                 CategoryCatId = product.CategoryCatId,
+                UnitId = (int)product.UnitId,
+                BrandId = product.BrandId,
+                VariantId = product.VariantId,
+                IsSelected = product.IsSelected,
                 PhtotPath = product.ImagePath
                 
             };
@@ -200,6 +210,8 @@ namespace InitCMS.Controllers
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", product.ProductCategoryID);
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", product.CategoryCatId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "BrandName");
+            ViewData["VariantId"] = new SelectList(_context.Variants, "Id", "VarOptOne");
             return View(PEVM);
         }
 
@@ -208,7 +220,7 @@ namespace InitCMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,Sale,CreatedDate,ProductCategoryID,CategoryCatId,Photo,PhtotPath")] ProductEditViewModel productVM)
+        public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,Sale,CreatedDate,ProductCategoryID,CategoryCatId,BrandId,VariantId,IsSelected,Photo,PhtotPath")] ProductEditViewModel productVM)
         {
             if (id != productVM.Id)
             {
@@ -274,6 +286,9 @@ namespace InitCMS.Controllers
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productVM.ProductCategoryID);
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle", productVM.CategoryCatId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "BrandName");
+            ViewData["VariantId"] = new SelectList(_context.Variants, "Id", "VarOptOne");
+
             return View(productVM);
         }
 

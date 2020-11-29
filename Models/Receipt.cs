@@ -9,8 +9,8 @@ namespace InitCMS.Models
         [Key]
         public int Id { get; set; }
         public int CustomerId { get; set; } 
-        public int StoreId { get; set; } 
-        public DateTime ReceiptDate { get; set; } = DateTime.Now;
+        public int StoreId { get; set; }
+        public DateTime ReceiptDate { get; set; }
         public ICollection<Sale> Sale { get; set; }
 
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace InitCMS.Models
 {
@@ -12,5 +13,6 @@ namespace InitCMS.Models
         public string Address { get; set; }
         [Phone]
         public string Phone { get; set; }
+     
     }
 }

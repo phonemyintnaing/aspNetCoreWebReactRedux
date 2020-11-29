@@ -10,5 +10,6 @@ namespace InitCMS.Models
         public string Title { get; set; }
         [MaxLength(50)]
         public string Location { get; set; }
+       
     }
 }

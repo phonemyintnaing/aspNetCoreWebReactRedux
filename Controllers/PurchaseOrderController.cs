@@ -7,6 +7,7 @@ using InitCMS.Data;
 using InitCMS.ViewModel;
 using InitCMS.Models;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -62,15 +63,22 @@ namespace InitCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,StatusId,Note,PODate,UserId")] POViewModel pOViewModel)
+        public async Task<IActionResult> Create([Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,POStatusId,Note,PODate,UserId")] POViewModel pOViewModel)
         {
             if (ModelState.IsValid)
             {
                 using var transaction = _context.Database.BeginTransaction();
+               
                 try
                 {
                     _context.Add(pOViewModel);
                     await _context.SaveChangesAsync();
+
+                    //Get Session
+                    var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
+                    //Retrieve data
+                    var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+
                     //Insert into Stock
                     var stocks = new Stock
                     {
@@ -79,14 +87,14 @@ namespace InitCMS.Controllers
                         Quantity = pOViewModel.Quantity,
                         StockDate = DateTime.Now,
                         StockInStatus = 2, //POS 1, PO 2, StockAdjustment 3
-                        UserId = 2 //pOViewModel.UserId
+                        UserId = getUerId //pOViewModel.UserId
                     };
                     _context.Add(stocks);
                     await _context.SaveChangesAsync();
                     transaction.Commit();
                     
                     return RedirectToAction(nameof(Index));
-
+                    
                 }
                 catch (Exception)
                 {
@@ -126,7 +134,7 @@ namespace InitCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,StatusId,Note,PODate,UserId")] POViewModel pOViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,POStatusId,Note,PODate,UserId")] POViewModel pOViewModel)
         {
             if (id != pOViewModel.Id)
             {
@@ -138,6 +146,18 @@ namespace InitCMS.Controllers
                 try
                 {
                     _context.Update(pOViewModel);
+                    await _context.SaveChangesAsync();
+                    //Insert into Stock
+                    var stocks = new Stock
+                    {
+                        POId = pOViewModel.Id,
+                        ProductId = pOViewModel.ProductId,
+                        Quantity = pOViewModel.Quantity,
+                        StockDate = DateTime.Now,
+                        StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
+                        UserId = 1 //pOViewModel.UserId
+                    };
+                    _context.Update(stocks);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

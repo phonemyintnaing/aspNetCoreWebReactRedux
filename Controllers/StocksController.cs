@@ -7,6 +7,7 @@ using InitCMS.Data;
 using InitCMS.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InitCMS.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -51,6 +52,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,POId,ProductId,Quantity,StockDate,StockInStatus,UserId")] Stock stock)
         {
+            //Get Session
+            var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
+            //Retrieve data
+            var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+
             if (ModelState.IsValid)
             {
                 var stocks = new Stock
@@ -59,7 +65,7 @@ namespace InitCMS.Controllers
                     Quantity = stock.Quantity,
                     StockDate = System.DateTime.Now,
                     StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
-                    UserId = 3
+                    UserId = getUerId
                 };
                 _context.Add(stocks);
                 await _context.SaveChangesAsync();

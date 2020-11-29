@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using InitCMS.Models;
 
@@ -20,12 +21,16 @@ namespace InitCMS.ViewModel
         [Column(TypeName = "decimal(18,2)")]
         public decimal Cost { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalCost { get; set; }
         public int POStatusId { get; set; }
         public POStatus POStatus { get; set; }
+        [MaxLength(1500)]
+        [DataType(DataType.MultilineText)]
         public string Note { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PODate { get; set; } = DateTime.Now;
         public int UserId { get; set; }
 

@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.ViewModel;
 using InitCMS.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InitCMS.Controllers
 {
@@ -21,26 +24,36 @@ namespace InitCMS.Controllers
         public async Task<IActionResult> Index()
         {
             var initCMSContext = _context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.ProductCategory).Include(p => p.Unit).Include(p => p.Variant);
+            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");
+            ViewData["Store"] = new SelectList(_context.Stores, "Id", "Title");
             return View(await initCMSContext.ToListAsync());
         }
 
         [HttpPost]
-        public IActionResult BillPay([FromBody]ReceiptSaleViewModel model)
+        public async Task<IActionResult> BillPay([FromBody]ReceiptSaleViewModel model)
         {
             using var transaction = _context.Database.BeginTransaction();
+           
             try
             {
-               _context.Receipts.Add(model.Receipt);
-               _context.SaveChanges();
+                ////Get Session
+                //var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
+                ////Retrieve data
+                //var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+
+                _context.Receipts.Add(model.Receipt);
+                await _context.SaveChangesAsync();
+
                 foreach (var item in model.Sale)
                 {
 
                      item.ReceiptId = model.Receipt.Id;
-                    _context.Sales.Add(item);
+                     _context.Sales.Add(item);                  
 
                     ////Insert into Stock
                     var stocks = new Stock
                     {
+
                         ProductId = item.ProductId,
                         Quantity = -item.Quantity,
                         StockDate = DateTime.Now,
@@ -48,10 +61,10 @@ namespace InitCMS.Controllers
                         UserId = 1
                     };
                     _context.Stocks.Add(stocks);
-                    _context.SaveChanges();
+                   await _context.SaveChangesAsync();
 
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 transaction.Commit();
 
                 return Json(model.Receipt.Id);

@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InitCMS.ViewModel
 {
@@ -21,6 +18,9 @@ namespace InitCMS.ViewModel
         [Remote(action: "CheckPCode", controller:"Products")]
         public string PCode { get; set; }
         public string Description { get; set; }
+        [MaxLength(1500)]
+        [DataType(DataType.MultilineText)]
+        public string LongDesc { get; set; }
         [DisplayName("Purchse Price")]
         public decimal? PurchasePrice { get; set; }
         [DisplayName("Selling Price")]
@@ -34,12 +34,18 @@ namespace InitCMS.ViewModel
         public int ProductCategoryID { get; set; }
         public int CategoryCatId { get; set; }
         public int UnitId { get; set; }
+        public int? BrandId { get; set; }
+        public int? VariantId { get; set; }
 
         [DisplayName("File Upload")]
         public IFormFile Photo { get; set; }
         [DisplayName("Category")]
         public ProductCategory ProductCategory { get; set; }
         public Category Category { get; set; }
-
+        public bool IsSelected { get; set; }
+        public Brand Brand { get; set; }
+        public Unit Unit { get; set; }     
+        public Variant Variant { get; set; }
+       
     }
 }

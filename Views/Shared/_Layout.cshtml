@@ -26,7 +26,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (string.IsNullOrEmpty(Context.Session.GetString("SessionEmail")))
                         {
-                           
+
 
                         }
                         else
@@ -48,6 +48,21 @@
                                     <li class="nav-item"><a asp-controller="ProductCategories" asp-action="Index">SubCategories</a></li>
                                     <li class="nav-item"><a asp-controller="Brands" asp-action="Index">Brands</a></li>
                                     <li class="nav-item"><a asp-controller="Units" asp-action="Index">Units</a></li>
+                                    <li class="nav-item"><a asp-controller="Variants" asp-action="Index">Variants</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stock<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="Stocks" asp-action="Index">Stock List</a></li>
+                                    <li class="nav-item"><a asp-controller="Stocks" asp-action="Create">Stock Adjustment</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PO<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="PurchaseOrder" asp-action="Index">PO List</a></li>
+                                    <li class="nav-item"><a asp-controller="PurchaseOrder" asp-action="Create">PO Entry</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -70,7 +85,7 @@
                     {
                         <form method="post" asp-action="Logout" asp-controller="Admin">
                             <button type="submit" class="nav-link btn nav-link " style="width:auto">
-                                @Context.Session.GetString("SessionEmail") Logout
+                                @Context.Session.GetString("SessionEmail") | Logout
                             </button>
                         </form>
                     }

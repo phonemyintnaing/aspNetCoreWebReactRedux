@@ -4,6 +4,11 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutPOS.cshtml";
 }
+@{ 
+
+    SelectList list = ViewBag.Customer;
+    SelectList list1 = ViewBag.Store;
+}
 
 <br />
 <div class="row d-print-none" id="hidden">
@@ -28,9 +33,6 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Category)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Variant)
                     </th>
 
                 </tr>
@@ -57,9 +59,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Category.CatTitle)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Variant.VarOptOne)
-                        </td>
 
                     </tr>
                 }
@@ -69,22 +68,11 @@
     <!--End of Div col8-->
     <div class="col-sm-4 bg-light">
         <h4>Bill</h4>
-        <div class="col-sm-12">
-            <select id='dropdownid'>
-                <option value='1'>WalkIn Customer</option>
-                <option value='2'>CustomerOne</option>
-                <option value='3'>CustomerTwo</option>
-                <option value='4'>CustomerThree</option>
-                <option value='5'>CustomerFour</option>
-            </select>
-            <select id='dropdownid'>
-                <option value='1'>WarehouseOne</option>
-                <option value='2'>WarehouseTwo</option>
-                <option value='3'>WarehouseThree</option>
-                <option value='4'>WarehouseFour</option>
-                <option value='5'>WarehouseFive</option>
-            </select>
+        <div class="btn-group mb-1">
+            @Html.DropDownList("customerlist", list, new { @class = "form-control mr-2" })
+            @Html.DropDownList("storelist", list1, new { @class = "form-control mr-2" })
         </div>
+       
         <br />
         <table class="table" style="font-size:14px;">
             <thead>
@@ -109,7 +97,7 @@
             </tfoot>
         </table>
         <hr />
-        <div class="col-sm-4"><a id="paybill" class="btn btn-success text-white" data-toggle="modal" data-target="#centralModalSm">Pay</a></div>      
+        <div class="col-sm-4"><a id="paybill" class="btn btn-success text-white" data-toggle="modal" data-target="#centralModalSm">Pay</a></div>
         <hr />
     </div>
 
@@ -127,8 +115,9 @@
             <div class="modal-header text-center">
                 <h4 class="modal-title w-100" id="myModalLabel">Init POS</h4>
                 <h6 class="modal-title w-25" id="myModalLabel">RefNo : <text id="refno"></text></h6>
+                <p id="date"></p>
             </div>
-  
+                
             <div class="modal-body">
 
                 <table class="table table-borderless" style="font-size:12px;">
@@ -175,24 +164,23 @@
             var table = $('#datatable').DataTable();
             $('#datatable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
-                $('#disp').append('<tr><td id="pid" style="Display:none">' + data[0] +'</td><td id="pname" >' + data[1] + '<br /><em>1 pc</em></td>' +
+                $('#disp').append('<tr><td id="pid" style="Display:none">' + data[0] + '</td><td id="pname" >' + data[1] + '<br /><em>1 pc</em></td>' +
                     '<td><input id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td id="amt">' + data[3] + '</td><td id="amt2" style="display:none;"><input>' + data[3] +
                     '</input></td><td><a id="rm" class="btn btn-danger">X</a></td></tr>');
-               //Calling Total
+                //Calling Total
                 calc_total();
             });
             //Delete
             $(document).on('click', '#rm', function () {
-               //click delete
+                //click delete
                 $(this).closest('tr').remove();
                 //calling total
                 calc_total();
             });
 
             $('#disp').on('keyup change', function () {
-               //calling subtotal
+                //calling subtotal
                 calc();
-
             });
 
             function calc() {
@@ -217,9 +205,6 @@
                 });
                 $("#subtotal").html(total);
 
-               // tax_sum = (total / 100) * $("#gst").val();
-               //$("#tax_amount").val(tax_sum.toFixed(2));
-               //$("#total_amount").val((tax_sum + total).toFixed(2));
             }
 
             $("#paybill").on('click', function () {
@@ -232,62 +217,79 @@
                     obj.Total = $(this).find('#amt').text();
                     if (obj.ProductId != null && obj.Quantity != null) {
                         sale.push(obj);
-                    }
+                    } else { alert("No item is selected!"); return false; }
                 });
 
-                var receipt = {
+                
+                    var date = new Date();
+                    var rdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+                    $('#date').html(rdate);
 
-                    CustomerId: 2,
-                    StoreId: 2
-                };               
-       
-                $.ajax({
+                    var customerid = $("#customerlist").find(":selected").val();
+                    var storeid = $("#storelist").find(":selected").val();
 
-                    url: '@Url.Action("BillPay", "POS")',
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ sale: sale, receipt: receipt }),
+                    var receipt = {
 
-                    success: function (data, status) {
-                      // console.log('the request(Success) is ' + status + ' the data is ' + data);
-                        //Printing 
-                        $('#refno').html(data);
+                        CustomerId: customerid,
+                        StoreId: storeid,
+                        ReceiptDate: rdate
+                };
+                
+                if (sale === undefined || sale.length > 0) {
 
-                        var salePrint = new Array();
-                        salePrint = [];
-                        $('#disp tr').each(function (index) {
-                            var obj = {};
-                            obj.ProductName = $(this).find('#pname').text();
-                            obj.Quantity = $(this).find('#qty').val();
-                            obj.Total = $(this).find('#amt').text();
-                            if (obj.ProductName != null && obj.Quantity != null) {
-                                salePrint.push(obj);
-                            }
-                        });
+                    $.ajax({
 
-                        salePrint.forEach(function (item) { $("#mdisp").append('<tr><td>' + item.ProductName + '</td><td>' + item.Quantity + '</td><td>' + item.Total + '</td></tr>'); });
+                        url: '@Url.Action("BillPay", "POS")',
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ sale: sale, receipt: receipt }),
 
-                        //SubTotal
-                        $('#msubtotal').html($('#subtotal').text());
-                        //remove Item
+                        success: function (data, status) {
+                            // console.log('the request(Success) is ' + status + ' the data is ' + data);
+                            //Printing 
+                            $('#refno').html(data);
 
-                        $('#close').on('click', function () {
-                            $('#disp tr').remove();
-                            $('#subtotal').remove();
-                            $('#mdisp tr').remove();
-                            $('#msubtotal').remove();
-                        });
+                            var salePrint = new Array();
+                            salePrint = [];
+                            $('#disp tr').each(function (index) {
+                                var obj = {};
+                                obj.ProductName = $(this).find('#pname').text();
+                                obj.Quantity = $(this).find('#qty').val();
+                                obj.Total = $(this).find('#amt').text();
+                                if (obj.ProductName != null && obj.Quantity != null) {
+                                    salePrint.push(obj);
+                                }
+                            });
+
+                            salePrint.forEach(function (item) { $("#mdisp").append('<tr><td>' + item.ProductName + '</td><td>' + item.Quantity + '</td><td>' + item.Total + '</td></tr>'); });
+
+                            //SubTotal
+                            $('#msubtotal').html($('#subtotal').text());
+                            //remove Item
+
+                            $('#close').on('click', function () {
+                                $('#disp tr').remove();
+                                $('#subtotal').remove();
+                                $('#mdisp tr').remove();
+                                $('#msubtotal').remove();
+                            });
 
                         },
-                    error: function (error) {
-                       console.log('the request(Error) is ' + error);
-                        alert(error);
+                        error: function (error) {
+                            console.log('the request(Error) is ' + error);
+                            alert(error);
                         }
-                });
-                
-            });
+                    });
 
+                } else {
+
+                    alert("No item is selected!");
+                    return false;
+                }
+
+                });
+       
         });
     </script>
 }

@@ -18,7 +18,11 @@ namespace InitCMS.Models
         [DisplayName("Code")]
         [Remote(action: "CheckPCode", controller: "Products")]
         public string PCode { get; set; }
+        [MaxLength(300)]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        [MaxLength(1500)]
+        [DataType(DataType.MultilineText)]
         public string LongDesc { get; set; }
         [DisplayName("Cost")]
         [Column(TypeName = "decimal(18,2)")]
@@ -48,7 +52,7 @@ namespace InitCMS.Models
         public Unit Unit { get; set; }
         public int? VariantId { get; set; }
         public Variant Variant { get; set; }
-        public virtual ICollection<Stock> Stock { get; set; }
-
+        public ICollection<Stock> Stock { get; set; }
+        
     }
 }
