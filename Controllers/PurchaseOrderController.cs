@@ -8,6 +8,8 @@ using InitCMS.ViewModel;
 using InitCMS.Models;
 using System;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace InitCMS.Controllers
 {
@@ -71,13 +73,28 @@ namespace InitCMS.Controllers
                
                 try
                 {
-                    _context.Add(pOViewModel);
-                    await _context.SaveChangesAsync();
-
                     //Get Session
                     var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
                     //Retrieve data
                     var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+
+                    var po = new POViewModel {
+                        RefNumber = pOViewModel.RefNumber,
+                        SupplierId = pOViewModel.SupplierId,
+                        ProductId = pOViewModel.ProductId,
+                        StoreId = pOViewModel.StoreId,
+                        Quantity = pOViewModel.Quantity,
+                        Cost = pOViewModel.Cost,
+                        Discount = pOViewModel.Discount,
+                        TotalCost = pOViewModel.TotalCost,
+                        POStatusId = pOViewModel.POStatusId,
+                        Note = pOViewModel.Note,
+                        PODate = DateTime.Now,
+                        UserId = getUerId                    
+                    };
+
+                    _context.Add(po);
+                    await _context.SaveChangesAsync();
 
                     //Insert into Stock
                     var stocks = new Stock
