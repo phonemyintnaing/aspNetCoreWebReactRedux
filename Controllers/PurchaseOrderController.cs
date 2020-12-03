@@ -25,6 +25,11 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             var initCMSContext = _context.POViewModels.Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier);
             return View(await initCMSContext.ToListAsync());
         }
@@ -32,6 +37,12 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +64,11 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder/Create
         public IActionResult Create()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Title");
             ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
@@ -130,6 +146,11 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -199,6 +220,11 @@ namespace InitCMS.Controllers
         // GET: PurchaseOrder/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();

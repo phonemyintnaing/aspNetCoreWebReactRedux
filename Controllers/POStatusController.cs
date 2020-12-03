@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -19,12 +20,22 @@ namespace InitCMS.Controllers
         // GET: POStatus
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             return View(await _context.POStatuses.ToListAsync());
         }
 
         // GET: POStatus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -43,6 +54,11 @@ namespace InitCMS.Controllers
         // GET: POStatus/Create
         public IActionResult Create()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             return View();
         }
 
@@ -65,6 +81,11 @@ namespace InitCMS.Controllers
         // GET: POStatus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -116,6 +137,11 @@ namespace InitCMS.Controllers
         // GET: POStatus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -136,6 +162,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             var pOStatus = await _context.POStatuses.FindAsync(id);
             _context.POStatuses.Remove(pOStatus);
             await _context.SaveChangesAsync();

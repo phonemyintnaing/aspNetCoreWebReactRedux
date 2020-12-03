@@ -11,10 +11,11 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Drawing;
 
 namespace InitCMS.Controllers
 {
-    
+
     public class ProductsController : Controller
     {
         private readonly InitCMSContext _context;
@@ -29,11 +30,11 @@ namespace InitCMS.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //   return RedirectToAction("Login","Admin");
-  
-            //}
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
 
             var initCMSContext = _context.Products.Include(p => p.ProductCategory)
                 .Include(c=>c.Category);
@@ -70,11 +71,11 @@ namespace InitCMS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            //if (HttpContext.Session.GetString("SessionEmail") == null)
-            //{
+            if (HttpContext.Session.GetString("SessionEmail") == null)
+            {
 
-            //    return RedirectToAction("Login", "Admin");
-            //}
+                return RedirectToAction("Login", "Admin");
+            }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
             ViewData["CategoryCatId"] = new SelectList(_context.Category, "CatId", "CatTitle");
             ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Label");
@@ -149,15 +150,37 @@ namespace InitCMS.Controllers
         private string UploadedFile(ProductViewModel model)
         {
             string uniqueFileName = null;
+            int width = 253;
+            int height = 253;
+            int w = 100;
+            int h = 100;
 
             if (model.Photo != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                //Convert to Webp fomat
+                string webpFileName = Path.GetFileNameWithoutExtension(model.Photo.FileName) +(".webp");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + webpFileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using var fileStream = new FileStream(filePath, FileMode.Create);
-                model.Photo.CopyTo(fileStream);
-                fileStream.Dispose();
+                
+                Image image = Image.FromStream(model.Photo.OpenReadStream(), true, true);
+                var newImage = new Bitmap(width, height);
+                using (var a = Graphics.FromImage(newImage))
+                {
+                    a.DrawImage(image, 0, 0, width, height);
+                    newImage.Save(filePath);
+                }
+
+                string uploadsFolder2 = Path.Combine(webHostEnvironment.WebRootPath, "imageSmall");
+                string filePath2 = Path.Combine(uploadsFolder2, uniqueFileName);
+                Image image2 = Image.FromStream(model.Photo.OpenReadStream(), true, true);
+                var newImage2 = new Bitmap(w, h);
+                using (var a = Graphics.FromImage(newImage2))
+                {
+                    a.DrawImage(image2, 0, 0, w, h);
+                    newImage2.Save(filePath2);
+                }
+
             }
             return uniqueFileName;
         }

@@ -23,6 +23,12 @@ namespace InitCMS.Controllers
         // GET: Stocks
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             var query = from b in _context.Stocks
                         join p in _context.Products
                             on b.ProductId equals p.Id
@@ -41,6 +47,11 @@ namespace InitCMS.Controllers
         // GET: Stocks/Create
         public IActionResult Create()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }

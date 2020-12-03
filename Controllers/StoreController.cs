@@ -22,6 +22,11 @@ namespace InitCMS.Controllers
         // GET: Products
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             dynamic dy = new ExpandoObject();
             dy.products = GetProducts();
             dy.productCategories = GetProductCategories();
@@ -41,7 +46,12 @@ namespace InitCMS.Controllers
         //Get: List filter by Category
         public async Task<IActionResult> ProductByCategory(int? Id)
         {
-            
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             var initCMSContext = _context.Products.Include(c => c.ProductCategory).Where(x => x.ProductCategoryID == Id);
 
             return View(await initCMSContext.ToListAsync());
@@ -49,6 +59,11 @@ namespace InitCMS.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
