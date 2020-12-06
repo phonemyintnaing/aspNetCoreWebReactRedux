@@ -47,7 +47,7 @@ namespace InitCMS.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -91,7 +91,7 @@ namespace InitCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserName,UserEmail,UserPassword")] User user)
+        public async Task<IActionResult> Create([Bind("Id,UserName,UserEmail,UserPassword")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace InitCMS.Controllers
 
             UserEditViewModel uevm = new UserEditViewModel
             {
-                UserId = user.UserId,
+                UserId = user.Id,
                 UserName = user.UserName,
                 UserEmail = user.UserEmail,
                 UserPassword = user.UserPassword
@@ -138,7 +138,7 @@ namespace InitCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserEmail,UserPassword")] UserEditViewModel user_evm)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,UserEmail,UserPassword")] UserEditViewModel user_evm)
         {
             if (id != user_evm.UserId)
             {
@@ -151,7 +151,7 @@ namespace InitCMS.Controllers
                 {
                     User user = new User
                     {
-                        UserId = user_evm.UserId,
+                        Id = user_evm.UserId,
                         UserName = user_evm.UserName,
                         UserEmail = user_evm.UserEmail,
                         UserPassword = user_evm.UserPassword
@@ -190,7 +190,7 @@ namespace InitCMS.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -212,7 +212,7 @@ namespace InitCMS.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.UserId == id);
+            return _context.User.Any(e => e.Id == id);
         }
     }
 }

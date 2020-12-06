@@ -66,7 +66,7 @@ namespace InitCMS.Controllers
             //Get Session
             var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
             //Retrieve data
-            var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+            var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.Id).FirstOrDefaultAsync();
 
             if (ModelState.IsValid)
             {

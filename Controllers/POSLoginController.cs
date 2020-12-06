@@ -28,6 +28,7 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel ur)
         {
+            
             if (ModelState.IsValid)
             {
                 var tempUser = _context.User.FirstOrDefault(u => u.UserEmail == ur.Email && u.UserPassword == ur.Password);
@@ -38,8 +39,13 @@ namespace InitCMS.Controllers
                     return View(ur);
                 }
             }
+            //Get UserId for Session
+            var userId = (from x in _context.User
+                          where x.UserEmail == ur.Email
+                          select x.Id).FirstOrDefault();
             //Add Session
             HttpContext.Session.SetString("SessionEmail", ur.Email);
+            HttpContext.Session.SetString("SessionUserId", userId.ToString());
             return RedirectToAction("Index", "POS");
         }
 

@@ -13,7 +13,8 @@ namespace InitCMS.Models
         public decimal Quantity { get; set; }
         public DateTime StockDate { get; set; }
         public int StockInStatus { get; set; }
-        public int UserId { get; set; }
-       
+        public int? UserId { get; set; }
+        public User User { get; set; }
+
     }
 }

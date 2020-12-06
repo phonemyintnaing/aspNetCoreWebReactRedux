@@ -15,6 +15,6 @@ namespace InitCMS.Models
         public decimal Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Total { get; set; }
-
+        
     }
 }

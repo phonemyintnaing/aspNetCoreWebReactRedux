@@ -4,14 +4,16 @@ using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InitCMS.Migrations
 {
     [DbContext(typeof(InitCMSContext))]
-    partial class InitCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20201206025519_UserID")]
+    partial class UserID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,10 +304,6 @@ namespace InitCMS.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("StoreId");
 
                     b.HasIndex("UserId");
 
@@ -802,18 +800,6 @@ namespace InitCMS.Migrations
 
             modelBuilder.Entity("InitCMS.Models.Receipt", b =>
                 {
-                    b.HasOne("InitCMS.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InitCMS.Models.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InitCMS.Models.User", "User")
                         .WithMany("Receipts")
                         .HasForeignKey("UserId");

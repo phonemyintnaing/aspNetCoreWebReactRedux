@@ -23,6 +23,11 @@ namespace InitCMS.Controllers
         // GET: POS
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "POSLogin");
+
+            }
             var initCMSContext = _context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.ProductCategory).Include(p => p.Unit).Include(p => p.Variant);
             ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");
             ViewData["Store"] = new SelectList(_context.Stores, "Id", "Title");
@@ -32,14 +37,19 @@ namespace InitCMS.Controllers
         [HttpPost]
         public async Task<IActionResult> BillPay([FromBody]ReceiptSaleViewModel model)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "POSLogin");
+
+            }
             using var transaction = _context.Database.BeginTransaction();
            
             try
             {
-                ////Get Session
-                //var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
-                ////Retrieve data
-                //var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.UserId).FirstOrDefaultAsync();
+                //Get Session
+                var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
+                //Retrieve data
+                var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.Id).FirstOrDefaultAsync();
 
                 _context.Receipts.Add(model.Receipt);
                 await _context.SaveChangesAsync();
@@ -58,7 +68,7 @@ namespace InitCMS.Controllers
                         Quantity = -item.Quantity,
                         StockDate = DateTime.Now,
                         StockInStatus = 1, //POS 1, PO 2, StockAdjustment 3
-                        UserId = 1
+                        UserId = getUerId
                     };
                     _context.Stocks.Add(stocks);
                    await _context.SaveChangesAsync();

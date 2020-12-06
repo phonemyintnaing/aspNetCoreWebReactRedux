@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<InitCMS.Models.Product>
-
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutPOS.cshtml";
 }
-@{ 
+@{
 
     SelectList list = ViewBag.Customer;
     SelectList list1 = ViewBag.Store;
@@ -13,6 +14,7 @@
 <br />
 <div class="row d-print-none" id="hidden">
     <div class="col-sm-8 table-responsive">
+        
         <table class="table-hover" id="datatable">
             <thead>
                 <tr>
@@ -78,7 +80,7 @@
             @Html.DropDownList("customerlist", list, new { @class = "form-control mr-2" })
             @Html.DropDownList("storelist", list1, new { @class = "form-control mr-2" })
         </div>
-       
+
         <br />
         <table class="table" style="font-size:14px;">
             <thead>
@@ -123,7 +125,7 @@
                 <h6 class="modal-title w-25" id="myModalLabel">RefNo : <text id="refno"></text></h6>
                 <p id="date"></p>
             </div>
-                
+
             <div class="modal-body">
 
                 <table class="table table-borderless" style="font-size:12px;">
@@ -148,7 +150,7 @@
             </div>
             <div class="modal-footer d-print-none">
                 <button type="button" class="btn btn-secondary btn-sm" id="close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" onclick="window.print()" >Print</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="window.print()">Print</button>
             </div>
         </div>
     </div>
@@ -159,6 +161,7 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+
             $('#datatable').DataTable({
 
                 "lengthChange": false,
@@ -170,8 +173,8 @@
             var table = $('#datatable').DataTable();
             $('#datatable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
-                $('#disp').append('<tr><td id="pid" style="Display:none">' + data[0] + '</td><td id="pname" >' + data[1] + '</td>' +
-                    '<td><input id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td id="amt">' + data[3] + '</td><td id="amt2" style="display:none;"><input>' + data[3] +
+                $('#disp').append('<tr><td id="pid" style="Display:none">' + data[0] + '</td><td id="pname" >' + data[2] + '</td>' +
+                    '<td><input id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td id="amt">' + data[4] + '</td><td id="amt2" style="display:none;"><input>' + data[4] +
                     '</input></td><td><a id="rm" class="btn btn-danger">X</a></td></tr>');
                 //Calling Total
                 calc_total();
@@ -225,21 +228,26 @@
                         sale.push(obj);
                     } else { alert("No item is selected!"); return false; }
                 });
-               
-                    var date = new Date();
-                    var rdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+
+                var date = new Date();
+                var rdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
                     $('#date').html(rdate);
 
                     var customerid = $("#customerlist").find(":selected").val();
                     var storeid = $("#storelist").find(":selected").val();
 
-                    var receipt = {
+                var userid = '@HttpContextAccessor.HttpContext.Session.GetString("SessionUserId")';
+              
+                var receipt = {
 
                         CustomerId: customerid,
                         StoreId: storeid,
-                        ReceiptDate: rdate
+                        ReceiptDate: rdate,
+                        UserId: userid
                 };
-                
+             
+                console.log(receipt);
+
                 if (sale === undefined || sale.length > 0) {
 
                     $.ajax({
@@ -252,7 +260,7 @@
 
                         success: function (data, status) {
                             // console.log('the request(Success) is ' + status + ' the data is ' + data);
-                            //Printing 
+                            //Printing
                             $('#refno').html(data);
 
                             var salePrint = new Array();
@@ -294,7 +302,7 @@
                 }
 
                 });
-       
+
         });
     </script>
 }

@@ -42,8 +42,13 @@ namespace InitCMS.Controllers
                     return View(ur);
                 }                
             }
+            var userId = (from x in _context.User
+                             where x.UserEmail == ur.Email
+                             select x.Id).FirstOrDefault();
             //Add Session
             HttpContext.Session.SetString("SessionEmail", ur.Email);
+            HttpContext.Session.SetString("SessionUserId", userId.ToString());
+            
             return RedirectToAction("Index", "Home");
         }
      
