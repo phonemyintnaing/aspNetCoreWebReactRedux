@@ -1,40 +1,53 @@
 ﻿@model IEnumerable<InitCMS.ViewModel.DailySaleViewModel>
-
 @{
-    ViewData["Title"] = "Daily Sale Report";
+    ViewData["Title"] = "DailySale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table" id="datatable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Qty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<h6>Daily Sale Report</h6>
+<hr />
+<div class="table-responsive">
+    <table class="table" id="datatable">
+        <thead>
             <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReceiptNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalePerson)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiptNumber)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
@@ -48,20 +61,23 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.CustomerName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Total)
+                    @Html.DisplayFor(modelItem => item.SalePerson)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
 
             </tr>
-        }
-    </tbody>
-</table>
-
+            }
+        </tbody>
+    </table>
+</div>
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {

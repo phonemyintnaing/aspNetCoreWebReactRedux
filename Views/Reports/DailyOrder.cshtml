@@ -1,18 +1,14 @@
-﻿@model IEnumerable<InitCMS.ViewModel.MonthlySaleViewModel>
-@{
-    ViewData["Title"] = "MonthlySale";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<InitCMS.ViewModel.DailyOrderViewModel>
 
-<h6>Daily Sale Report</h6>
+@{
+    ViewData["Title"] = "Daily Sale Report";
+}
+<h6>Daily Order Report</h6>
 <hr />
 <div class="table-responsive">
     <table class="table" id="datatable">
         <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReceiptNumber)
-                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ProductName)
                 </th>
@@ -26,15 +22,11 @@
                     @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Total)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.CustomerName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SalePerson)
+                    @Html.DisplayNameFor(model => model.Total)
                 </th>
-
                 <th>
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
@@ -45,9 +37,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReceiptNumber)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ProductName)
                     </td>
@@ -61,13 +50,10 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Total)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.CustomerName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.SalePerson)
+                        @Html.DisplayFor(modelItem => item.Total)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
