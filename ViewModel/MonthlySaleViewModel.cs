@@ -11,10 +11,10 @@ namespace InitCMS.ViewModel
     {
         [Display(Name ="ReceiptNo")]
         public int ReceiptNumber { get; set; }
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
         [Display(Name = "Code")]
         public string PCode { get; set; }
-
         public decimal Qty { get; set; }
         public decimal Price { get; set; }
         [Display(Name = "Customer Name")]
