@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <UserSecretsId>1d5cf542-93c0-419b-b415-f533a336d789</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

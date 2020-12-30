@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -22,12 +23,22 @@ namespace InitCMS.Controllers
         // GET: Variants
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             return View(await _context.Variants.ToListAsync());
         }
 
         // GET: Variants/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -56,6 +67,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,VarOptOne,VarOptTwo")] Variant variant)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(variant);
@@ -68,6 +84,11 @@ namespace InitCMS.Controllers
         // GET: Variants/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -88,6 +109,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,VarOptOne,VarOptTwo")] Variant variant)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id != variant.Id)
             {
                 return NotFound();
@@ -119,6 +145,11 @@ namespace InitCMS.Controllers
         // GET: Variants/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();

@@ -245,6 +245,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,Sale,CreatedDate,ProductCategoryID,CategoryCatId,BrandId,VariantId,IsSelected,Photo,PhtotPath")] ProductEditViewModel productVM)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id != productVM.Id)
             {
                 return NotFound();

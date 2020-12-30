@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace InitCMS.Controllers
 {
@@ -22,12 +23,24 @@ namespace InitCMS.Controllers
         // GET: Brands
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             return View(await _context.Brands.ToListAsync());
         }
 
         // GET: Brands/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -46,6 +59,12 @@ namespace InitCMS.Controllers
         // GET: Brands/Create
         public IActionResult Create()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             return View();
         }
 
@@ -56,6 +75,12 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,BrandName,BrandDesc")] Brand brand)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(brand);
@@ -68,6 +93,11 @@ namespace InitCMS.Controllers
         // GET: Brands/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
@@ -88,6 +118,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,BrandName,BrandDesc")] Brand brand)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id != brand.Id)
             {
                 return NotFound();
@@ -119,6 +154,11 @@ namespace InitCMS.Controllers
         // GET: Brands/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
             if (id == null)
             {
                 return NotFound();
