@@ -26,11 +26,11 @@ namespace InitCMS.Models
         public string LongDesc { get; set; }
         [DisplayName("Cost")]
         [Column(TypeName = "decimal(18,2)")]
-        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
         public decimal PurchasePrice { get; set; }
         [DisplayName("Price")]
         [Column(TypeName = "decimal(18,2)")]
-        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
         public decimal? SellPrice { get; set; }
         [DisplayName("Sale")]
         public int? Sale { get; set; }

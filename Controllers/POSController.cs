@@ -47,7 +47,7 @@ namespace InitCMS.Controllers
             try
             {
                 //Get Session
-                var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
+                 var sessionEmail = HttpContext.Session.GetString("SessionEmail").ToLower();
                 //Retrieve data
                 var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.Id).FirstOrDefaultAsync();
 

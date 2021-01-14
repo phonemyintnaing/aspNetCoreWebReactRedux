@@ -10,7 +10,6 @@ namespace InitCMS.Models
     {
         
         public int OrderId { get; set; }
-
         public List<OrderDetail> OrderLines { get; set; }
 
         [Required(ErrorMessage = "Please enter your first name")]
@@ -57,9 +56,7 @@ namespace InitCMS.Models
 
         [ScaffoldColumn(false)]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal OrderTotal { get; set; }
-
-       
+        public decimal OrderTotal { get; set; }      
         [ScaffoldColumn(false)]
         public DateTime OrderPlaced { get; set; }
 

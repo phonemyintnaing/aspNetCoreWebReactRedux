@@ -13,7 +13,7 @@
 
 <br />
 <div class="row d-print-none" id="hidden">
-    <div class="col-sm-8 table-responsive">
+    <div class="col-sm-7 table-responsive">
         
         <table class="table-hover" id="datatable">
             <thead>
@@ -74,7 +74,7 @@
         </table>
     </div>
     <!--End of Div col8-->
-    <div class="col-sm-4 bg-light">
+    <div class="col-sm-5 bg-light">
         <h4>Bill</h4>
         <div class="btn-group mb-1">
             @Html.DropDownList("customerlist", list, new { @class = "form-control mr-2" })
@@ -88,7 +88,7 @@
                     <td>Product</td>
                     <td>Qty</td>
                     <td>Price</td>
-                    <td></td>
+                    <td>SubTotal</td>
                     <td></td>
                 </tr>
             </thead>
@@ -97,9 +97,9 @@
             <tfoot>
                 <tr>
                     <td></td>
-                    <td>SubTotal</td>
-                    <td id="subtotal"></td>
                     <td></td>
+                    <td>Total</td>
+                    <td id="subtotal"></td>
                     <td></td>
                 </tr>
             </tfoot>
@@ -117,7 +117,6 @@
 
     <!-- Change class .modal-sm to change the size of the modal -->
     <div class="modal-dialog modal-sm" role="document">
-
 
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -174,9 +173,10 @@
             $('#datatable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
                 $('#disp').append('<tr><td id="pid" style="Display:none">' + data[0] + '</td><td id="pname" >' + data[2] + '</td>' +
-                    '<td><input id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td id="amt">' + data[4] + '</td><td id="amt2" style="display:none;"><input>' + data[4] +
-                    '</input></td><td><a id="rm" class="btn btn-danger">X</a></td></tr>');
+                    '<td><input type="number" min=0 oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null");" id="qty" maxlength="5" size="3" class="form-control" value="1"></input></td><td><input type="number" min=0 oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null");" id="price" maxlength="10" value="' + data[4].replace(/,/g, '') + '" class="form-control"></input></td>' +
+                    '<td style="vertical-align: middle" id="amt"></td><td><a id="rm" class="btn btn-danger">X</a></td></tr>');
                 //Calling Total
+                calc();
                 calc_total();
             });
             //Delete
@@ -198,10 +198,13 @@
                     var html = $(this).html();
                     if (html != "") {
                         var qty = $(this).find('#qty').val();
-                        var price = parseFloat($(this).find('#amt2:hidden').text());
+                        var prices = parseFloat($(this).find('#price').val());
+                       
+                       // var price = parseFloat($(this).find('#amt2:hidden').text());
                         //var gst_total = (qty * price * gst) / 100;
-                        $(this).find('#amt').html(qty * price);
+                        $(this).find('#amt').html(qty * prices);
                         //calling total
+
                         calc_total();
                     }
                 });
@@ -210,7 +213,7 @@
             function calc_total() {
                 total = 0;
                 $('#disp tr #amt').each(function () {
-                    total += parseFloat($(this).text());
+                    total += parseFloat($(this).text().replace(/,/g, ''));
                 });
                 $("#subtotal").html(total);
 
