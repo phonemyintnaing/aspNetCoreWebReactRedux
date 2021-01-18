@@ -62,6 +62,7 @@
                                     <li class="nav-item"><a asp-controller="Brands" asp-action="Index">Brands</a></li>
                                     <li class="nav-item"><a asp-controller="Units" asp-action="Index">Units</a></li>
                                     <li class="nav-item"><a asp-controller="Variants" asp-action="Index">Variants</a></li>
+                                    <li class="nav-item"><a asp-controller="Warehouse" asp-action="Index">WareHouse</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -78,8 +79,21 @@
                                     <li class="nav-item"><a asp-controller="PurchaseOrder" asp-action="Create">PO Entry</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="Index">Warehouse</a>
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">COA<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="Coas" asp-action="Index">COA List</a></li>
+                                    <li class="nav-item"><a asp-controller="Coas" asp-action="Create">New COA</a></li>
+                                    <li class="nav-item"><a asp-controller="CoaTypes" asp-action="Index">COA Type List</a></li>
+                                    <li class="nav-item"><a asp-controller="CoaTypes" asp-action="Create">New COA Type</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Expense<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="ExpenseEntries" asp-action="Index">Daily Expense</a></li>
+                                    <li class="nav-item"><a asp-controller="ExpenseEntries" asp-action="Create">Expense Entry</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>

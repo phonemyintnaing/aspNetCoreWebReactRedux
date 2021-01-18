@@ -4,14 +4,16 @@ using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InitCMS.Migrations
 {
     [DbContext(typeof(InitCMSContext))]
-    partial class InitCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20210117093632_Coa")]
+    partial class Coa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,38 +125,6 @@ namespace InitCMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("InitCMS.Models.ExpenseEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("CoaId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CoaId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ExpenseEntry");
                 });
 
             modelBuilder.Entity("InitCMS.Models.Order", b =>
@@ -842,21 +812,6 @@ namespace InitCMS.Migrations
                     b.HasOne("InitCMS.Models.CoaType", "CoaType")
                         .WithMany("Coas")
                         .HasForeignKey("CoaTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InitCMS.Models.ExpenseEntry", b =>
-                {
-                    b.HasOne("InitCMS.Models.Coa", "Coa")
-                        .WithMany()
-                        .HasForeignKey("CoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InitCMS.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

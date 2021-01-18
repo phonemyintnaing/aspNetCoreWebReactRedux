@@ -17,22 +17,22 @@ namespace InitCMS.Controllers
         }
         public IActionResult Index()
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
 
             return View();
         }
 
         public IActionResult DailyOrder(DateTime date)
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
             DateTime startDateTime = date; //Today at 00:00:00
             DateTime endDateTime = date.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
@@ -68,11 +68,11 @@ namespace InitCMS.Controllers
         }
         public IActionResult MonthlyOrder(DateTime date)
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
             var month = Convert.ToDateTime(date).Month;
             var year = Convert.ToDateTime(date).Year;
 
@@ -112,11 +112,11 @@ namespace InitCMS.Controllers
         //Daily Sales
         public IActionResult DailySale(DateTime date)
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
             DateTime startDateTime = date; //Today at 00:00:00
             DateTime endDateTime = date.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
@@ -160,11 +160,11 @@ namespace InitCMS.Controllers
         //Monthly Sale
         public IActionResult MonthlySale(DateTime date)
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
             var month = Convert.ToDateTime(date).Month;
             var year = Convert.ToDateTime(date).Year;
 

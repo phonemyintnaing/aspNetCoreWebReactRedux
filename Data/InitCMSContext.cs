@@ -32,7 +32,9 @@ namespace InitCMS.Data
         public DbSet<POViewModel> POViewModels { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<POStatus> POStatuses { get; set; }
-
+        public DbSet<Coa> Coa { get; set; }
+        public DbSet<CoaType> CoaType { get; set; }
+        public DbSet<ExpenseEntry> ExpenseEntry { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

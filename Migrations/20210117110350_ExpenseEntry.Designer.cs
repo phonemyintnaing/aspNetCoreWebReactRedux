@@ -4,14 +4,16 @@ using InitCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InitCMS.Migrations
 {
     [DbContext(typeof(InitCMSContext))]
-    partial class InitCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20210117110350_ExpenseEntry")]
+    partial class ExpenseEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,7 +137,11 @@ namespace InitCMS.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CoaId")
+                    b.Property<string>("CoaId")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<int?>("CoaId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -150,7 +156,7 @@ namespace InitCMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CoaId");
+                    b.HasIndex("CoaId1");
 
                     b.HasIndex("UserId");
 
@@ -849,10 +855,8 @@ namespace InitCMS.Migrations
             modelBuilder.Entity("InitCMS.Models.ExpenseEntry", b =>
                 {
                     b.HasOne("InitCMS.Models.Coa", "Coa")
-                        .WithMany()
-                        .HasForeignKey("CoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ExpenseEntry")
+                        .HasForeignKey("CoaId1");
 
                     b.HasOne("InitCMS.Models.User", "User")
                         .WithMany()

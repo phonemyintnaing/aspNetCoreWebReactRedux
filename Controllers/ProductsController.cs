@@ -45,11 +45,11 @@ namespace InitCMS.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            //{
-            //    return RedirectToAction("Login", "Admin");
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-            //}
+            }
 
             if (id == null)
             {
@@ -71,9 +71,8 @@ namespace InitCMS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("SessionEmail") == null)
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
             {
-
                 return RedirectToAction("Login", "Admin");
             }
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
@@ -110,7 +109,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,PCode,Description,PurchasePrice,SellPrice,InStock,Sale,CreatedDate,ProductCategoryID,CategoryCatId,UnitId,BrandId,VariantId,IsSelected,Photo")] ProductViewModel product)
         {
-            
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+
             if (ModelState.IsValid)
             {
                 string uniqueFileName = UploadedFile(product);
@@ -324,9 +327,8 @@ namespace InitCMS.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
 
-            if (HttpContext.Session.GetString("SessionEmail") == null)
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
             {
-
                 return RedirectToAction("Login", "Admin");
             }
 

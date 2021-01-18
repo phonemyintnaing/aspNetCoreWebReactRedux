@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h6>Purchase Order List</h6>
-
+<h6>Daily Purchase Order List</h6>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<hr />
 <div class="table-responsive">
     <table class="table" id="datatable">
         <thead>
@@ -85,6 +85,7 @@
         </tbody>
     </table>
 </div>
+
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {

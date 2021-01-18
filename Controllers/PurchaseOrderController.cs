@@ -30,7 +30,10 @@ namespace InitCMS.Controllers
                 return RedirectToAction("Login", "Admin");
 
             }
-            var initCMSContext = _context.POViewModels.Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier);
+            DateTime startDateTime = DateTime.Today; //Today at 00:00:00
+            DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
+
+            var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier);
             return View(await initCMSContext.ToListAsync());
         }
 
@@ -67,7 +70,6 @@ namespace InitCMS.Controllers
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
             {
                 return RedirectToAction("Login", "Admin");
-
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Title");
@@ -83,6 +85,11 @@ namespace InitCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,POStatusId,Note,PODate,UserId")] POViewModel pOViewModel)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+
             if (ModelState.IsValid)
             {
                 using var transaction = _context.Database.BeginTransaction();
@@ -143,117 +150,117 @@ namespace InitCMS.Controllers
 
         }
 
-        // GET: PurchaseOrder/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
+        //// GET: PurchaseOrder/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+        //    {
+        //        return RedirectToAction("Login", "Admin");
 
-            }
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //    }
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var pOViewModel = await _context.POViewModels.FindAsync(id);
-            if (pOViewModel == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", pOViewModel.StoreId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", pOViewModel.SupplierId);
-            return View(pOViewModel);
-        }
+        //    var pOViewModel = await _context.POViewModels.FindAsync(id);
+        //    if (pOViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
+        //    ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", pOViewModel.StoreId);
+        //    ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", pOViewModel.SupplierId);
+        //    return View(pOViewModel);
+        //}
 
-        // POST: PurchaseOrder/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,POStatusId,Note,PODate,UserId")] POViewModel pOViewModel)
-        {
-            if (id != pOViewModel.Id)
-            {
-                return NotFound();
-            }
+        //// POST: PurchaseOrder/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,RefNumber,SupplierId,ProductId,StoreId,Quantity,Cost,Discount,TotalCost,POStatusId,Note,PODate,UserId")] POViewModel pOViewModel)
+        //{
+        //    if (id != pOViewModel.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pOViewModel);
-                    await _context.SaveChangesAsync();
-                    //Insert into Stock
-                    var stocks = new Stock
-                    {
-                        POId = pOViewModel.Id,
-                        ProductId = pOViewModel.ProductId,
-                        Quantity = pOViewModel.Quantity,
-                        StockDate = DateTime.Now,
-                        StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
-                        UserId = 1 //pOViewModel.UserId
-                    };
-                    _context.Update(stocks);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!POViewModelExists(pOViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", pOViewModel.StoreId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", pOViewModel.SupplierId);
-            return View(pOViewModel);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(pOViewModel);
+        //            await _context.SaveChangesAsync();
+        //            //Insert into Stock
+        //            var stocks = new Stock
+        //            {
+        //                POId = pOViewModel.Id,
+        //                ProductId = pOViewModel.ProductId,
+        //                Quantity = pOViewModel.Quantity,
+        //                StockDate = DateTime.Now,
+        //                StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
+        //                UserId = 1 //pOViewModel.UserId
+        //            };
+        //            _context.Update(stocks);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!POViewModelExists(pOViewModel.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", pOViewModel.ProductId);
+        //    ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", pOViewModel.StoreId);
+        //    ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", pOViewModel.SupplierId);
+        //    return View(pOViewModel);
+        //}
 
-        // GET: PurchaseOrder/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
-            {
-                return RedirectToAction("Login", "Admin");
+        //// GET: PurchaseOrder/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+        //    {
+        //        return RedirectToAction("Login", "Admin");
 
-            }
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //    }
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var pOViewModel = await _context.POViewModels
-                .Include(p => p.Product)
-                .Include(p => p.Store)
-                .Include(p => p.Supplier)
-                .Include(p => p.POStatus)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pOViewModel == null)
-            {
-                return NotFound();
-            }
+        //    var pOViewModel = await _context.POViewModels
+        //        .Include(p => p.Product)
+        //        .Include(p => p.Store)
+        //        .Include(p => p.Supplier)
+        //        .Include(p => p.POStatus)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (pOViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(pOViewModel);
-        }
+        //    return View(pOViewModel);
+        //}
 
-        // POST: PurchaseOrder/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var pOViewModel = await _context.POViewModels.FindAsync(id);
-            _context.POViewModels.Remove(pOViewModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: PurchaseOrder/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var pOViewModel = await _context.POViewModels.FindAsync(id);
+        //    _context.POViewModels.Remove(pOViewModel);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool POViewModelExists(int id)
         {

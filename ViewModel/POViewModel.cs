@@ -10,10 +10,13 @@ namespace InitCMS.ViewModel
     {
         public int Id { get; set; }
         public int RefNumber { get; set; }
+        [Display(Name ="Supplier")]
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
+        [Display(Name ="Product")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        [Display(Name ="WareHouse")]
         public int StoreId { get; set; }
         public Store Store { get; set; }
         [Column(TypeName = "decimal(18,2)")]
@@ -24,6 +27,7 @@ namespace InitCMS.ViewModel
         public decimal? Discount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalCost { get; set; }
+        [Display(Name ="PO Status")]
         public int POStatusId { get; set; }
         public POStatus POStatus { get; set; }
         [MaxLength(1500)]
