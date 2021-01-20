@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InitCMS.Data;
 using InitCMS.Models;
+using InitCMS.ViewModel;
 using System;
 using Microsoft.AspNetCore.Http;
 
@@ -33,8 +34,28 @@ namespace InitCMS.Controllers
             var initCMSContext = _context.ExpenseEntry.Where(d => d.CreatedDate >= startDateTime && d.CreatedDate <= endDateTime).Include(e => e.Coa).Include(e => e.User);
             return View(await initCMSContext.ToListAsync());
         }
+        public IActionResult ReportView()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
 
-        
+            }
+            return View();
+        }
+        public async Task<IActionResult> Report(ReportViewVewModel rv)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            DateTime startDateTime = rv.StartDate.Date; //new DateTime(2021,01,01);//; //Today at 00:00:00
+            DateTime endDateTime = rv.EndDate.Date.AddDays(1).AddTicks(-1); //Today at 23:59:59
+
+            var initCMSContext = _context.ExpenseEntry.Where(d => d.CreatedDate >= startDateTime && d.CreatedDate <= endDateTime).Include(e => e.Coa).Include(e => e.User);
+            return View(await initCMSContext.ToListAsync());
+        }
+
         // GET: ExpenseEntries1/Details/5
         /**
         public async Task<IActionResult> Details(int? id)

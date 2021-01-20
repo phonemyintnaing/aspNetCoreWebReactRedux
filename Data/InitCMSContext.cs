@@ -55,5 +55,7 @@ namespace InitCMS.Data
 
         }
 
+        public DbSet<InitCMS.ViewModel.ReportViewVewModel> ReportViewVewModel { get; set; }
+
     }
 }

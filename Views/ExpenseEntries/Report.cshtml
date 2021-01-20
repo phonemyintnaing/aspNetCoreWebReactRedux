@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<InitCMS.Models.ExpenseEntry>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h6>Daily Expenses</h6>
-<p>
-    <a asp-action="Create">Create New</a> | <a asp-action="ReportView">Report</a>
-</p>
+<h6>Expense Report</h6>
 
+<p>
+    <a asp-action="ReportView">Back to Report</a>
+</p>
 <hr />
 <div class="table-responsive">
     <table class="table" id="datatable">
@@ -30,7 +30,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.User)
                 </th>
-                <th></th>
+
             </tr>
         </thead>
         <tbody>
@@ -50,18 +50,15 @@
                         @Html.DisplayFor(modelItem => item.CreatedDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.User.UserEmail)
+                        @Html.DisplayFor(modelItem => item.User.UserName)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+
+
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {

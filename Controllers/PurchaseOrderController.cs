@@ -33,7 +33,29 @@ namespace InitCMS.Controllers
             DateTime startDateTime = DateTime.Today; //Today at 00:00:00
             DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
-            var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier);
+            var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier).Include(u=> u.User);
+            return View(await initCMSContext.ToListAsync());
+        }
+        public IActionResult ReportView()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+
+            }
+            return View();
+        }
+        public async Task<IActionResult> Report(ReportViewVewModel rv)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            DateTime startDateTime = rv.StartDate.Date; //new DateTime(2021,01,01);//; //Today at 00:00:00
+            DateTime endDateTime = rv.EndDate.Date.AddDays(1).AddTicks(-1); //Today at 23:59:59
+
+            var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier).Include(u => u.User);
             return View(await initCMSContext.ToListAsync());
         }
 

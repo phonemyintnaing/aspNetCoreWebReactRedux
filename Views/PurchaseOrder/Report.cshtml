@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<InitCMS.ViewModel.POViewModel>
 
 @{
-    ViewData["Title"] = "Purchase Order";
+    ViewData["Title"] = "Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h6>Daily Purchase Order List</h6>
+<h6>Purchase Order Report</h6>
 <p>
-    <a asp-action="Create">Create New</a> | <a asp-action="ReportView">Report</a>
+    <a asp-action="ReportView">Back to Report</a>
 </p>
-
 <hr />
 <div class="table-responsive">
     <table class="table" id="datatable">
@@ -19,13 +18,13 @@
                     @Html.DisplayNameFor(model => model.RefNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Supplier.Name)
+                    @Html.DisplayNameFor(model => model.Supplier)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Product)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Store.Title)
+                    @Html.DisplayNameFor(model => model.Store)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Quantity)
@@ -33,17 +32,21 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Cost)
                 </th>
+
                 <th>
                     @Html.DisplayNameFor(model => model.TotalCost)
                 </th>
+
                 <th>
-                    @Html.DisplayNameFor(model => model.POStatus.Title)
+                    @Html.DisplayNameFor(model => model.Note)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PODate)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
 
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -68,19 +71,21 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Cost)
                     </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalCost)
                     </td>
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.POStatus.Title)
+                        @Html.DisplayFor(modelItem => item.Note)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PODate)
                     </td>
-
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
                     </td>
+
                 </tr>
             }
         </tbody>

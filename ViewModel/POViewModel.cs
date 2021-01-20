@@ -36,6 +36,7 @@ namespace InitCMS.ViewModel
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PODate { get; set; } = DateTime.Now;
+        [Display(Name = "Created Person")]
         public int? UserId { get; set; }
         public User User { get; set; }
     }
