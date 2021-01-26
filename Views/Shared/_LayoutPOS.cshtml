@@ -6,16 +6,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Init POS</title>
+    <title>@ViewData["Title"] - YHP </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-dark py-0 bg-info navbar-expand-lg py-md-0">
-            <a class="navbar-brand" asp-controller="POS" asp-action="Index">InitPOS</a>
-            <button class="navbar-toggler mt-1" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars"></i>
+        <nav class="navbar navbar-dark py-0 bg-info navbar-expand-sm py-md-0">
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">*@
+            <a class="navbar-brand" asp-controller="POS" asp-action="Index">YHP</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <!-- Links -->
             <div class="navbar-collapse collapse">
@@ -24,6 +30,7 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Back Office</a>
                     </li>
                 </ul>
+
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         @if (string.IsNullOrEmpty(Context.Session.GetString("SessionEmail")))

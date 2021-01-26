@@ -22,8 +22,10 @@ namespace InitCMS.ViewModel
         [DataType(DataType.MultilineText)]
         public string LongDesc { get; set; }
         [DisplayName("Purchse Price")]
+        [DataType(DataType.Currency)]
         public decimal? PurchasePrice { get; set; }
         [DisplayName("Selling Price")]
+        [DataType(DataType.Currency)]
         public decimal SellPrice { get; set; }
         [DisplayName("In Stock")]
         public int? InStock { get; set; }
@@ -31,10 +33,15 @@ namespace InitCMS.ViewModel
         public int? Sale { get; set; }
         [DisplayName("Created Date")]
         public DateTime CreatedDate { get; set; }
+        [DisplayName("Product Category")]
         public int ProductCategoryID { get; set; }
+        [DisplayName("Category")]
         public int CategoryCatId { get; set; }
+        [DisplayName("Unit")]
         public int UnitId { get; set; }
+        [DisplayName("Brand")]
         public int? BrandId { get; set; }
+        [DisplayName("Variant")]
         public int? VariantId { get; set; }
 
         [DisplayName("File Upload")]
@@ -42,6 +49,7 @@ namespace InitCMS.ViewModel
         [DisplayName("Category")]
         public ProductCategory ProductCategory { get; set; }
         public Category Category { get; set; }
+        [DisplayName("Active")]
         public bool IsSelected { get; set; }
         public Brand Brand { get; set; }
         public Unit Unit { get; set; }     

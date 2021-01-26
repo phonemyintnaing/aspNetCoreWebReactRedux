@@ -29,7 +29,6 @@ namespace InitCMS.Controllers
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
             {
                 return RedirectToAction("Login", "Admin");
-
             }
 
             //product count

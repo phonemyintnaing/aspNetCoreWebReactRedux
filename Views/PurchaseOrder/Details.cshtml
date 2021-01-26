@@ -1,14 +1,13 @@
 ﻿@model InitCMS.ViewModel.POViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "PO Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
 
 <div>
-    <h4>POViewModel</h4>
+    <h5>PO Details</h5>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -21,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Supplier)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Supplier.Id)
+            @Html.DisplayFor(model => model.Supplier.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Product)
@@ -33,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Store)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Store.Id)
+            @Html.DisplayFor(model => model.Store.Title)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Quantity)
@@ -63,7 +62,7 @@
             @Html.DisplayNameFor(model => model.POStatusId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.POStatusId)
+            @Html.DisplayFor(model => model.POStatus.Title)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Note)
@@ -86,6 +85,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

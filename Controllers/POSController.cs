@@ -54,6 +54,8 @@ namespace InitCMS.Controllers
                 _context.Receipts.Add(model.Receipt);
                 await _context.SaveChangesAsync();
 
+                DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
+
                 foreach (var item in model.Sale)
                 {
 
@@ -66,7 +68,7 @@ namespace InitCMS.Controllers
 
                         ProductId = item.ProductId,
                         Quantity = -item.Quantity,
-                        StockDate = DateTime.Now,
+                        StockDate = dateValue,
                         StockInStatus = 1, //POS 1, PO 2, StockAdjustment 3
                         UserId = getUerId
                     };

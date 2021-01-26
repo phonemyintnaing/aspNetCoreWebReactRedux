@@ -9,7 +9,8 @@ namespace InitCMS.ViewModel
     public class POViewModel
     {
         public int Id { get; set; }
-        public int RefNumber { get; set; }
+        
+        public string RefNumber { get; set; }
         [Display(Name ="Supplier")]
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
@@ -22,10 +23,14 @@ namespace InitCMS.ViewModel
         [Column(TypeName = "decimal(18,2)")]
         public decimal Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+        [DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
         public decimal Cost { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Discount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+        [DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
         public decimal TotalCost { get; set; }
         [Display(Name ="PO Status")]
         public int POStatusId { get; set; }
@@ -35,7 +40,7 @@ namespace InitCMS.ViewModel
         public string Note { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime PODate { get; set; } = DateTime.Now;
+        public DateTime PODate { get; set; }
         [Display(Name = "Created Person")]
         public int? UserId { get; set; }
         public User User { get; set; }

@@ -8,6 +8,7 @@ using InitCMS.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InitCMS.ViewModel;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace InitCMS.Controllers
 {
@@ -68,13 +69,15 @@ namespace InitCMS.Controllers
             //Retrieve data
             var getUerId = await _context.User.Where(e => e.UserEmail.ToLower() == sessionEmail).Select(x => x.Id).FirstOrDefaultAsync();
 
+            DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
+
             if (ModelState.IsValid)
             {
                 var stocks = new Stock
                 {
                     ProductId = stock.ProductId,
                     Quantity = stock.Quantity,
-                    StockDate = System.DateTime.Now,
+                    StockDate = dateValue,
                     StockInStatus = 3, //POS 1, PO 2, StockAdjustment 3
                     UserId = getUerId
                 };

@@ -113,7 +113,7 @@ namespace InitCMS.Controllers
             {
                 return RedirectToAction("Login", "Admin");
             }
-
+            DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
             if (ModelState.IsValid)
             {
                 string uniqueFileName = UploadedFile(product);
@@ -127,7 +127,7 @@ namespace InitCMS.Controllers
                     SellPrice = product.SellPrice,
                  
                     Sale = product.Sale,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = dateValue,
                     ProductCategoryID = product.ProductCategoryID,
                     CategoryCatId = product.CategoryCatId,
                     UnitId = product.UnitId,
@@ -257,7 +257,7 @@ namespace InitCMS.Controllers
             {
                 return NotFound();
             }
-
+            DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
             if (ModelState.IsValid)
             {
                 try
@@ -276,7 +276,7 @@ namespace InitCMS.Controllers
                             SellPrice = productVM.SellPrice,
                            
                             Sale = productVM.Sale,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = dateValue,
                             ProductCategoryID = productVM.ProductCategoryID,
                             CategoryCatId = productVM.CategoryCatId
                         };

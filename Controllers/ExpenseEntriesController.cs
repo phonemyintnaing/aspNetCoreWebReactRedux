@@ -28,10 +28,12 @@ namespace InitCMS.Controllers
                 return RedirectToAction("Login", "Admin");
             }
 
-            DateTime startDateTime = DateTime.Today; //Today at 00:00:00
-            DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
+            DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
+            DateTime startDateTime = dateValue; //Today at 00:00:00
+            //DateTime endDateTime = dateValue.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
-            var initCMSContext = _context.ExpenseEntry.Where(d => d.CreatedDate >= startDateTime && d.CreatedDate <= endDateTime).Include(e => e.Coa).Include(e => e.User);
+            //var initCMSContext = _context.ExpenseEntry.Where(d => d.CreatedDate >= startDateTime && d.CreatedDate <= endDateTime).Include(e => e.Coa).Include(e => e.User);
+            var initCMSContext = _context.ExpenseEntry.Where(d => d.CreatedDate.Date == startDateTime.Date).Include(e => e.Coa).Include(e => e.User);
             return View(await initCMSContext.ToListAsync());
         }
         public IActionResult ReportView()

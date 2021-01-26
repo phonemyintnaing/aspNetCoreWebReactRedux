@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<InitCMS.Models.Coa>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "COA List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>COA List</h4>
+<h5>COA List</h5>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -36,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CoaType.Id)
+                @Html.DisplayFor(modelItem => item.CoaType.Label)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

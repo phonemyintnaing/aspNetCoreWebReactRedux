@@ -28,12 +28,14 @@ namespace InitCMS.Controllers
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionEmail")))
             {
                 return RedirectToAction("Login", "Admin");
-
             }
-            DateTime startDateTime = DateTime.Today; //Today at 00:00:00
-            DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
 
-            var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier).Include(u=> u.User);
+            DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
+            DateTime startDateTime = dateValue; //Today at 00:00:00
+          //  DateTime endDateTime = dateValue.AddDays(1).AddTicks(-1); //Today at 23:59:59
+
+          //  var initCMSContext = _context.POViewModels.Where(d => d.PODate >= startDateTime && d.PODate <= endDateTime).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier).Include(u=> u.User);
+            var initCMSContext = _context.POViewModels.Where(d => d.PODate.Date == startDateTime.Date).Include(p => p.Product).Include(p => p.Store).Include(p => p.POStatus).Include(p => p.Supplier).Include(u => u.User);
             return View(await initCMSContext.ToListAsync());
         }
         public IActionResult ReportView()
@@ -134,20 +136,20 @@ namespace InitCMS.Controllers
                         TotalCost = pOViewModel.TotalCost,
                         POStatusId = pOViewModel.POStatusId,
                         Note = pOViewModel.Note,
-                        PODate = DateTime.Now,
+                        PODate = pOViewModel.PODate,
                         UserId = getUerId                    
                     };
 
                     _context.Add(po);
                     await _context.SaveChangesAsync();
-
+                    DateTime dateValue = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Myanmar Standard Time")); //for converting to IST
                     //Insert into Stock
                     var stocks = new Stock
                     {
                         POId = pOViewModel.Id,
                         ProductId = pOViewModel.ProductId,
                         Quantity = pOViewModel.Quantity,
-                        StockDate = DateTime.Now,
+                        StockDate = dateValue,
                         StockInStatus = 2, //POS 1, PO 2, StockAdjustment 3
                         UserId = getUerId //pOViewModel.UserId
                     };
